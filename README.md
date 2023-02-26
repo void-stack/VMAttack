@@ -1,3 +1,8 @@
+## What can it do now?
+Not much besides parsing and reading .NET Reactor VM stream
+See [here](https://github.com/void-stack/VMAttack/blob/dev/src/VMAttack.Pipeline/VirtualMachines/EzirizVM/EzirizAttack.cs).
+
+
 # Project Status [very WIP]
 
 This project is heavily work in progress and is being created as a study for me and new reversers in .NET VM to explore and learn about code obfuscation techniques and how to reverse engineer them. 
@@ -5,13 +10,6 @@ This project is heavily work in progress and is being created as a study for me 
 The main focus currently of this project is on [.NET Reactor 6.9.0.0](https://www.eziriz.com/), which has a simple 1:1 CIL virtual machine.
 
 <img src="assets/showcase.gif">
-
-## Dependencies
-
-This project is using the following dependencies:
-- [Echo Framework](https://github.com/Washi1337/Echo): an experimental .NET assembly editor and manipulation framework
-- [AsmResolver](https://github.com/Washi1337/AsmResolver): a library that provides a complete set of tools to read and modify .NET assemblies, including a fully-featured CIL (Common Intermediate Language) assembler and disassembler.
-- [UseEveryOpCode](https://github.com/0xInception/UseEveryOpCode): a .NET assembly that contains a single method that uses every CIL opcode, which can be useful for testing and experimentation purposes.
 
 # Introduction
 
@@ -26,6 +24,14 @@ Malware authors are increasingly using commercial obfuscators to make their code
 The most popular obfuscators used by malware authors include Eazfuscator.NET, .Net Reactor, VMProtect, Agile, and ConfuserEX KoiVM. These obfuscators use techniques such as string encryption, control flow obfuscation, and code virtualization to make code more difficult to understand.
 
 However, some of these obfuscators are not foolproof and can be defeated by skilled security researchers.Therefore, it's important for security researchers to remain vigilant and employ appropriate countermeasures to detect and identify malware that uses commercial obfuscators.
+
+## Dependencies
+
+This project is using the following dependencies:
+- [Echo Framework](https://github.com/Washi1337/Echo): an experimental .NET assembly editor and manipulation framework
+- [AsmResolver](https://github.com/Washi1337/AsmResolver): a library that provides a complete set of tools to read and modify .NET assemblies, including a fully-featured CIL (Common Intermediate Language) assembler and disassembler.
+- [UseEveryOpCode](https://github.com/0xInception/UseEveryOpCode): a .NET assembly that contains a single method that uses every CIL opcode, which can be useful for testing and experimentation purposes.
+
 
 ## 💵 Want to support?
 - Donate BTC at `bc1q048wrqztka5x2syt9mtj68uuf73vqry60s38vf`
