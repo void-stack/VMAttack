@@ -67,7 +67,7 @@ public class CustomDataReader : CustomStreamReaderBase
         size = ReadEncryptedByte();
         {
             // Log that we're reading the exports.
-            Logger.Debug($"Reading {size} exports...");
+            Logger.Debug($"Reading {size} MethodKeys...");
 
             // Read the method IDs and add them to the method keys dictionary.
             for (uint id = 0; id < size; id++)
