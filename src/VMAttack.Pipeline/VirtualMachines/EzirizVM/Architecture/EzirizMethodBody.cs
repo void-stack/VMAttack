@@ -5,20 +5,26 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 public class EzirizMethodBody
 {
-    public readonly EzirizMethod Parent;
-
     public EzirizMethodBody(EzirizMethod parent)
     {
         Parent = parent;
 
-        //Instructions = new List<VmInstruction>();
         Locals = new List<ITypeDescriptor>();
-        //ExceptionHandlers = new List<VmExceptionHandler>();
+        Instructions = new List<EzirizInstruction>();
+        ExceptionHandlers = new List<EzirizException>();
     }
 
-    public List<ITypeDescriptor> Locals
+    public EzirizMethod Parent { get; }
+
+    public List<EzirizException> ExceptionHandlers { get; }
+
+    public List<EzirizInstruction> Instructions { get; }
+
+    public List<ITypeDescriptor> Locals { get; }
+
+    public override string ToString()
     {
-        get;
-        set;
+        return
+            $"body_{Parent.Id:X4} with {Instructions.Count} instructions and {Locals.Count} locals and {ExceptionHandlers.Count} exception handlers";
     }
 }

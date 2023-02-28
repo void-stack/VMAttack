@@ -11,31 +11,31 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
 /// <summary>
 ///     This class represents a custom data reader for Eziriz virtual machine disassembly.
 /// </summary>
-public class CustomDataReader : CustomStreamReaderBase
+public class EzirizStreamReader : EzirizReaderBase
 {
+    public readonly ManifestResource ManifestResource;
+
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CustomDataReader" /> class.
+    ///     Initializes a new instance of the <see cref="EzirizStreamReader" /> class.
     /// </summary>
     /// <param name="reader">The binary stream reader to read data from.</param>
     /// <param name="context">The context object for the disassembly process.</param>
-    public CustomDataReader(BinaryStreamReader reader, Context context)
+    public EzirizStreamReader(Context context, BinaryStreamReader reader)
         : base(context, reader)
     {
-        // Log that we're starting to read the Eziriz stream.
         Logger.Debug("Starting to read Eziriz Stream...");
 
         // Try to find the Eziriz resource data.
-        if (!TryGetResource(out var resource))
+        if (!TryGetResource(out ManifestResource))
             throw new DevirtualizationException("Cannot find Eziriz Resource Data!");
 
         // Try to create a reader for the Eziriz resource data.
-        if (!resource.TryGetReader(out Reader))
+        if (!ManifestResource.TryGetReader(out Reader))
             throw new DevirtualizationException("Cannot create reader for Eziriz Resource Data!");
 
         // Read the number of operands.
         int size = ReadEncryptedByte();
         {
-            // Log that we're reading the operands.
             Logger.Debug($"Reading {size} operands...");
 
             // Read each operand and add it to the operands dictionary.
@@ -50,7 +50,6 @@ public class CustomDataReader : CustomStreamReaderBase
         // Read the number of strings.
         size = ReadEncryptedByte();
         {
-            // Log that we're reading the strings.
             Logger.Debug($"Reading {size} strings...");
 
             // Read each string and add it to the strings dictionary.
@@ -66,7 +65,6 @@ public class CustomDataReader : CustomStreamReaderBase
         // Read the number of exports.
         size = ReadEncryptedByte();
         {
-            // Log that we're reading the exports.
             Logger.Debug($"Reading {size} MethodKeys...");
 
             // Read the method IDs and add them to the method keys dictionary.
@@ -90,26 +88,17 @@ public class CustomDataReader : CustomStreamReaderBase
     /// <summary>
     ///     Gets the dictionary of operands.
     /// </summary>
-    public IDictionary<uint, byte> Operands
-    {
-        get;
-    } = new Dictionary<uint, byte>();
+    public IDictionary<uint, byte> Operands { get; } = new Dictionary<uint, byte>();
 
     /// <summary>
     ///     Gets the dictionary of strings.
     /// </summary>
-    public IDictionary<uint, string> Strings
-    {
-        get;
-    } = new Dictionary<uint, string>();
+    public IDictionary<uint, string> Strings { get; } = new Dictionary<uint, string>();
 
     /// <summary>
     ///     Gets the dictionary of method keys.
     /// </summary>
-    public IDictionary<uint, ulong> MethodKeys
-    {
-        get;
-    } = new Dictionary<uint, ulong>();
+    public IDictionary<uint, ulong> MethodKeys { get; } = new Dictionary<uint, ulong>();
 
     /// <summary>
     ///     Tries to find a resource with a specific name and length in the module's resources and sets the result to the

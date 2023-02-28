@@ -29,6 +29,5 @@ public enum VirtualMachineType
     /// <summary>
     ///     Indicates that VMAttack should try to autodetect the virtual machine and attack it.
     /// </summary>
-    [Display(Name = "Autodetection.")]
-    Autodetect
+    [Display(Name = "Autodetection.")] Autodetect
 }

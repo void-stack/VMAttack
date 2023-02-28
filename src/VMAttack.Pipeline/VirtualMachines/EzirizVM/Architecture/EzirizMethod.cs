@@ -1,22 +1,25 @@
-﻿namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
+﻿using AsmResolver.DotNet;
+
+namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 public class EzirizMethod
 {
-    public EzirizMethod(int methodKey)
+    public EzirizMethod(MethodDefinition? cilMethod, uint id, ulong methodOffset)
     {
-        MethodKey = methodKey;
+        Id = id;
+        MethodOffset = methodOffset;
+        CilMethod = cilMethod;
+
         EzirizBody = new EzirizMethodBody(this);
     }
 
-    public int MethodKey
-    {
-        get;
-        set;
-    }
+    public uint Id { get; }
+    public ulong MethodOffset { get; }
+    public MethodDefinition? CilMethod { get; }
+    public EzirizMethodBody EzirizBody { get; }
 
-    public EzirizMethodBody EzirizBody
+    public override string ToString()
     {
-        get;
-        set;
+        return $"method_{Id:X4}";
     }
 }

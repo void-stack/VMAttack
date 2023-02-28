@@ -41,36 +41,24 @@ public class Context
     ///     Gets the PE file that this context operates on.
     /// </summary>
     /// <value>The PE file that this context operates on.</value>
-    public PEFile PeFile
-    {
-        get;
-    }
+    public PEFile PeFile { get; }
 
     /// <summary>
     ///     Gets the logger that this context uses for logging.
     /// </summary>
     /// <value>The logger that this context uses for logging.</value>
-    public ILogger Logger
-    {
-        get;
-    }
+    public ILogger Logger { get; }
 
     /// <summary>
     ///     Gets the options that this context uses.
     /// </summary>
     /// <value>The options that this context uses.</value>
-    public Options Options
-    {
-        get;
-    }
+    public Options Options { get; }
 
     /// <summary>
     ///     Gets the module definition for the module that this context operates on.
     // </<summary>
-    public ModuleDefinition Module
-    {
-        get;
-    }
+    public ModuleDefinition Module { get; }
 
     /// <summary>
     ///     Writes the modified module to disk. The file will be saved to the specified output path.

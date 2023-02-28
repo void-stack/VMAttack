@@ -10,10 +10,7 @@ public interface IVirtualMachine
     ///     Gets the type of virtual machine represented by the implementing class.
     /// </summary>
     /// <value>The type of virtual machine represented by the implementing class.</value>
-    VirtualMachineType Target
-    {
-        get;
-    }
+    VirtualMachineType Target { get; }
 
     /// <summary>
     ///     Executes the patch on the virtual machine.

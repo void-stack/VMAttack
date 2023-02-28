@@ -22,10 +22,7 @@ public class VirtualMachineService
     /// <summary>
     ///     Gets the context for this service.
     /// </summary>
-    private Context Context
-    {
-        get;
-    }
+    private Context Context { get; }
 
     /// <summary>
     ///     Gets a collection of types that implement the specified interface.

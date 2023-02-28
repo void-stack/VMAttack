@@ -18,16 +18,10 @@ public abstract class ContextBase
     /// <summary>
     ///     Gets the logger for this attack.
     /// </summary>
-    protected ILogger Logger
-    {
-        get;
-    }
+    protected ILogger Logger { get; }
 
     /// <summary>
     ///     Gets the context for this attack.
     /// </summary>
-    protected Context Context
-    {
-        get;
-    }
+    protected Context Context { get; }
 }

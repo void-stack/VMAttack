@@ -15,11 +15,7 @@ public class Options
     [Display(Name = "Path to the file", Description = "Path to the file")]
     [MinLength(1)]
     [MaxLength(255)]
-    public string InputFile
-    {
-        get;
-        set;
-    } =
+    public string InputFile { get; set; } =
         @"C:\Users\User\Desktop\VMAttack\src\Target_EzirizVM\bin\Debug\Target_EzirizVM_Secure\Target_EzirizVM.exe"; //null!;
 
     /// <summary>
@@ -30,11 +26,7 @@ public class Options
     [Display(Name = "Name of the patched binary", Description = "The patched binary will be saved to this path")]
     [MinLength(1)]
     [MaxLength(255)]
-    public string OutputPath
-    {
-        get;
-        set;
-    } = "test.exe"; //null!;
+    public string OutputPath { get; set; } = "test.exe"; //null!;
 
     /// <summary>
     ///     Gets or sets the type of virtual machine to attack.
@@ -42,9 +34,5 @@ public class Options
     /// <value>The type of virtual machine to attack.</value>
     [Required]
     [Display(Name = "Select your Virtual Machine Type", Description = "Select your Virtual Machine Type")]
-    public VirtualMachineType VirtualMachine
-    {
-        get;
-        set;
-    }
+    public VirtualMachineType VirtualMachine { get; set; }
 }

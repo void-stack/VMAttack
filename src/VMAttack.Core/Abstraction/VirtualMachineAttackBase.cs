@@ -20,10 +20,7 @@ public abstract class VirtualMachineAttackBase : ContextBase, IVirtualMachine
     /// <summary>
     ///     Gets the type of virtual machine this attack targets.
     /// </summary>
-    public abstract VirtualMachineType Target
-    {
-        get;
-    }
+    public abstract VirtualMachineType Target { get; }
 
     /// <summary>
     ///     Executes the patch for this attack.

@@ -25,18 +25,12 @@ public class BlackBox
     /// <summary>
     ///     Gets the virtual machine service for this black box.
     /// </summary>
-    private VirtualMachineService VirtualMachineService
-    {
-        get;
-    }
+    private VirtualMachineService VirtualMachineService { get; }
 
     /// <summary>
     ///     Gets the context for this black box.
     /// </summary>
-    private Context Context
-    {
-        get;
-    }
+    private Context Context { get; }
 
     /// <summary>
     ///     Starts the attack on the .NET module.

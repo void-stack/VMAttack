@@ -7,7 +7,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Abstraction;
 /// <summary>
 ///     This abstract class serves as a base for custom stream reader classes.
 /// </summary>
-public abstract class CustomStreamReaderBase : ContextBase
+public abstract class EzirizReaderBase : ContextBase
 {
     /// <summary>
     ///     The binary stream reader used to read data.
@@ -15,11 +15,11 @@ public abstract class CustomStreamReaderBase : ContextBase
     protected BinaryStreamReader Reader;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CustomStreamReaderBase" /> class.
+    ///     Initializes a new instance of the <see cref="EzirizReaderBase" /> class.
     /// </summary>
     /// <param name="context">The context used for reading.</param>
     /// <param name="reader">The binary stream reader used to read data.</param>
-    protected CustomStreamReaderBase(Context context, BinaryStreamReader reader)
+    protected EzirizReaderBase(Context context, BinaryStreamReader reader)
         : base(context, context.Logger)
     {
         Reader = reader;

@@ -1,4 +1,5 @@
-﻿using AsmResolver.DotNet;
+﻿using System;
+using AsmResolver.DotNet;
 using AsmResolver.IO;
 using VMAttack.Core;
 using VMAttack.Core.Abstraction;
@@ -12,7 +13,8 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
 /// </summary>
 public class EzirizAttack : VirtualMachineAttackBase
 {
-    private readonly CustomDataReader _dataReader;
+    private readonly Disassembler _disassembler;
+    private readonly EzirizStreamReader _streamReader;
 
     /// <summary>
     ///     Gets the module explorer for this attack.
@@ -27,7 +29,8 @@ public class EzirizAttack : VirtualMachineAttackBase
         : base(context)
     {
         // Initializes a new instance of the CustomDataReader with a BinaryStreamReader and the provided context.
-        _dataReader = new CustomDataReader(new BinaryStreamReader(), context);
+        _streamReader = new EzirizStreamReader(context, new BinaryStreamReader());
+        _disassembler = new Disassembler(context, _streamReader);
 
         // Initializes a new instance of the ModuleExplorer with the context.Module.
         _moduleExplorer = new ModuleExplorer(context.Module);
@@ -43,8 +46,11 @@ public class EzirizAttack : VirtualMachineAttackBase
     /// </summary>
     public override void Devirtualize()
     {
-        // Logs a message to indicate that the EzirizVM devirtualization attack is being performed.
-        Logger.Info("EzirizVM");
+        foreach (var methodKey in _streamReader.MethodKeys)
+        {
+            _disassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
+            Console.Write("\n");
+        }
     }
 
     /// <summary>
