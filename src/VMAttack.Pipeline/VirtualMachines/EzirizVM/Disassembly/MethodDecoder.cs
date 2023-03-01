@@ -1,4 +1,5 @@
-﻿using AsmResolver.DotNet;
+﻿using System;
+using AsmResolver.DotNet;
 using AsmResolver.IO;
 using AsmResolver.PE.DotNet.Metadata.Tables;
 using VMAttack.Core;
@@ -66,8 +67,6 @@ public class MethodDecoder : EzirizReaderBase
         ReadExceptionHandlers(method, exceptionHandlersCount);
         ReadInstructions(method, instructionsCount);
 
-        Logger.Debug($"\t\t{method.EzirizBody}");
-
         // Returns the created EzirizMethod.
         return method;
     }
@@ -76,37 +75,86 @@ public class MethodDecoder : EzirizReaderBase
     ///     Reads the instructions for the given EzirizMethod.
     /// </summary>
     /// <param name="method">The EzirizMethod object to read the instructions for.</param>
-    /// <param name="instructionsCount">The count of instructions to be read.</param>
-    private void ReadInstructions(EzirizMethod method, int instructionsCount)
+    /// <param name="count">The count of instructions to be read.</param>
+    private void ReadInstructions(EzirizMethod method, int count)
     {
-        for (int i = 0; i < instructionsCount; i++)
+        // TODO: MAKE THIS INTO SEPARATE CLASS
+        Logger.Info($"Reading {count} instructions...");
+
+        for (int i = 0; i < count; i++)
         {
             byte b = Reader.ReadByte();
-            var instr = new EzirizInstruction(EzirizOpCode.Nop);
 
-            if (b > 173) throw new DevirtualizationException("Disassembling Exception!");
+            var code = new EzirizOpcode(EzirizCode.Unknown, b);
+
+            var instr = new EzirizInstruction(code)
+            {
+                Offset = Reader.Offset
+            };
+
+            if (b >= 176) throw new DevirtualizationException("Disassembling Exception!");
 
             if (_ezirizStream.Operands.TryGetValue(b, out byte operand))
                 instr.Operand = operand switch
                 {
-                    // TODO: read operands
+                    1 => ReadEncryptedByte(),
+                    2 => Reader.ReadInt64(),
+                    3 => Reader.ReadSingle(),
+                    4 => Reader.ReadDouble(),
+
+                    // read array
+                    5 => ((Func<object>)(() =>
+                    {
+                        int size = ReadEncryptedByte();
+                        int[] array = new int[size];
+                        for (int index = 0; index < size; index++)
+                            array[index] = ReadEncryptedByte();
+
+                        return array;
+                    }))(),
                     _ => null
                 };
+
             method.EzirizBody.Instructions.Add(instr);
+            Logger.Debug($"\t{instr}");
         }
     }
 
     private void ReadLocals(EzirizMethod method, int count)
     {
-        for (int i = 0; i < count; i++) method.EzirizBody.Locals.Add(_context.Module.CorLibTypeFactory.Object);
+        Logger.Info($"Reading {count} locals...");
+
+        for (uint index = 0; index < count; index++)
+        {
+            int encryptedType = ReadEncryptedByte();
+
+            if (encryptedType is >= 0 and < 50)
+            {
+                var type = (EzirizType)encryptedType & (EzirizType)31;
+                bool isByRef = (encryptedType & 32) > 0;
+
+                method.EzirizBody.Locals.Add(new EzirizLocal(index, type, isByRef));
+            }
+            else
+            {
+                Logger.Warn("Adding unknown local type!");
+                method.EzirizBody.Locals.Add(new EzirizLocal(index, EzirizType.Object, false));
+            }
+
+            Logger.Debug($"\t{method.EzirizBody.Locals[(int)index]}");
+        }
     }
 
     private void ReadExceptionHandlers(EzirizMethod method, int count)
     {
+        Logger.Info($"Reading {count} exception handlers...");
+
         for (int i = 0; i < count; i++)
         {
             var eh = new EzirizExceptionReader(_context, Reader).Read();
             method.EzirizBody.ExceptionHandlers.Add(eh);
+
+            Logger.Debug($"\t{eh.ToString()}");
         }
     }
 }

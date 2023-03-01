@@ -1,6 +1,7 @@
 ## What can it do now?
-Not much besides parsing and reading .NET Reactor VM stream
-See [here](https://github.com/void-stack/VMAttack/blob/dev/src/VMAttack.Pipeline/VirtualMachines/EzirizVM/EzirizAttack.cs).
+Not much besides parsing and reading .NET Reactor VM stream and reading virtualized method structure like eh, locals, instructions with resolved types, etc...
+
+See [here](https://github.com/void-stack/VMAttack/blob/dev/src/VMAttack.Pipeline/VirtualMachines/EzirizVM).
 
 
 # Project Status [very WIP]

@@ -26,7 +26,7 @@ public class Disassembler : ContextBase
     {
         if (!_methods.TryGetValue(id, out var method))
         {
-            Logger.Debug($"Created new method_{id:X4} with entry key {methodOffset:X8}.");
+            Logger.Debug($"Created new method_{id:X4}, reading from offset {methodOffset:X8}.");
 
             var disassembled = _methodDecoder.CreateMethod(id, methodOffset);
 

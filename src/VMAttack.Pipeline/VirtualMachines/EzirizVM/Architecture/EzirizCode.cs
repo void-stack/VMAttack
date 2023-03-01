@@ -1,6 +1,6 @@
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
-public enum EzirizOpCode : byte
+public enum EzirizCode : byte
 {
-    Nop
+    Unknown
 }

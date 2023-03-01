@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AsmResolver.DotNet;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
@@ -9,7 +8,7 @@ public class EzirizMethodBody
     {
         Parent = parent;
 
-        Locals = new List<ITypeDescriptor>();
+        Locals = new List<EzirizLocal>();
         Instructions = new List<EzirizInstruction>();
         ExceptionHandlers = new List<EzirizException>();
     }
@@ -20,11 +19,5 @@ public class EzirizMethodBody
 
     public List<EzirizInstruction> Instructions { get; }
 
-    public List<ITypeDescriptor> Locals { get; }
-
-    public override string ToString()
-    {
-        return
-            $"body_{Parent.Id:X4} with {Instructions.Count} instructions and {Locals.Count} locals and {ExceptionHandlers.Count} exception handlers";
-    }
+    public List<EzirizLocal> Locals { get; }
 }

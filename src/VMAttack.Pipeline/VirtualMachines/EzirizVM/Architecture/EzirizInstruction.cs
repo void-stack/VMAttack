@@ -1,31 +1,48 @@
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
+public class EzirizOpcode
+{
+    public EzirizOpcode(EzirizCode ezirizCode, short codeValue)
+    {
+        CodeValue = codeValue;
+        EzirizCode = ezirizCode;
+    }
+
+    public EzirizCode EzirizCode { get; }
+    public short CodeValue { get; }
+
+    public override string ToString()
+    {
+        return $"opcode_{EzirizCode} ({CodeValue})";
+    }
+}
+
 public class EzirizInstruction
 {
-    public EzirizInstruction(EzirizOpCode opCode)
-        : this(0, opCode)
+    public EzirizInstruction(EzirizOpcode code)
+        : this(0, code)
     {
     }
 
-    public EzirizInstruction(EzirizOpCode opCode, object? operand)
-        : this(0, opCode, operand)
+    public EzirizInstruction(EzirizOpcode code, object? operand)
+        : this(0, code, operand)
     {
     }
 
-    public EzirizInstruction(int offset, EzirizOpCode opCode, object? operand = null)
+    public EzirizInstruction(ulong offset, EzirizOpcode opcode, object? operand = null)
     {
         Offset = offset;
-        OpCode = opCode;
+        Opcode = opcode;
         Operand = operand;
     }
 
-    public EzirizOpCode OpCode { get; set; }
-    public int Offset { get; set; }
+    public EzirizOpcode Opcode { get; set; }
+    public ulong Offset { get; set; }
     public object? Operand { get; set; }
 
     public override string ToString()
     {
-        string str = $"VM_{Offset:X4}" + ": " + OpCode;
+        string str = $"VM_{Offset:X4}" + ": " + Opcode;
         return Operand != null ? $"{str} {Operand}" : str;
     }
 }

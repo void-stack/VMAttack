@@ -46,6 +46,7 @@ public class EzirizAttack : VirtualMachineAttackBase
     /// </summary>
     public override void Devirtualize()
     {
+        Console.Write("\n");
         foreach (var methodKey in _streamReader.MethodKeys)
         {
             _disassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);

@@ -1,4 +1,4 @@
-﻿namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
+﻿namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 public enum EzirizEhType : byte
 {
