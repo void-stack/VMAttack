@@ -52,6 +52,12 @@ public class EzirizAttack : VirtualMachineAttackBase
             _disassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
             Console.Write("\n");
         }
+
+        // Get all distinct opcodes used in virtualized method sorted  
+        Logger.Debug("Unique used opcodes used in disassembler: byte[] {" +
+                     string.Join(", ", _disassembler.UsedOpcodesMap) + "};");
+
+        // Pattern match the unique opcodes? make ast?
     }
 
     /// <summary>
