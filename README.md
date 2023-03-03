@@ -1,6 +1,6 @@
 ## What can it do now?
 
-| Component             | Supported |
+| EzirizVM             | Supported |
 |-----------------------|:---------:|
 | Stream Reader         |    yes    |
 | Operands              |    yes    |
@@ -17,6 +17,7 @@
 ```csharp
 // Normal function 
 
+[Obfuscation(Feature = "virtualization", Exclude = false)]
 private static int Test()
 {
 	int a = 1;
@@ -47,9 +48,9 @@ private static int Test()
 ```c
 // Disassembled virtualized code from EzirizVM
 
-Created new method_0003, reading from offset 0x0001B29D.
+Created new method_0001, reading from offset 0x0001B29D.
 Reading method at offset 0x1B29D
- Method parent is Test1_Called_String
+ Method parent is Test
 Reading 1 locals...
  V_0000 : Type Int32 : IsByRef: False
 Reading 0 exception handlers...
@@ -66,6 +67,7 @@ Reading 8 instructions...
  0x1B2B2: opcode_Unknown (37)       /* ret */
 ```
 
+... the vm opcode values are different every build, so we need to build solution to resolve them back to the IL.
 
 
 See [here](https://github.com/void-stack/VMAttack/blob/dev/src/VMAttack.Pipeline/VirtualMachines/EzirizVM).
