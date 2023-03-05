@@ -66,6 +66,18 @@ Reading 8 instructions...
 ... the vm opcode values are different every build, so we need to build a solution to resolve them back to the IL.
 research coming soon...
 
+
+## Handler code
+---------------
+<img src="assets/handler.png">
+
+</br>
+
+## Dumping handlers
+-------------------
+<img src="assets/handler_dump.png">
+
+
 Implementation [here](https://github.com/void-stack/VMAttack/blob/dev/src/VMAttack.Pipeline/VirtualMachines/EzirizVM).
 
 **Detailed research coming soon...**
