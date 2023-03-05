@@ -15,10 +15,7 @@ public class BlackBox
     /// <param name="logger">The logger for the attack.</param>
     public BlackBox(Options options, ILogger logger)
     {
-        // Create a new context with the given options and logger
         Context = new Context(options, logger);
-
-        // Create a new virtual machine service with the context
         VirtualMachineService = new VirtualMachineService(Context);
     }
 
@@ -37,7 +34,6 @@ public class BlackBox
     /// </summary>
     public void Start()
     {
-        // Execute the virtual machine attack
         ExecuteVirtualMachinesAttack();
     }
 
@@ -47,7 +43,7 @@ public class BlackBox
     public void Save()
     {
         // Write the module to disk
-        Context.WriteModule();
+        //Context.WriteModule();
     }
 
     /// <summary>

@@ -21,7 +21,7 @@ public class EzirizStreamReader : EzirizReaderBase
     /// <param name="reader">The binary stream reader to read data from.</param>
     /// <param name="context">The context object for the disassembly process.</param>
     public EzirizStreamReader(Context context, BinaryStreamReader reader)
-        : base(context, reader)
+        : base(context, ref reader)
     {
         Logger.Debug("Starting to read Eziriz Stream...");
 

@@ -19,7 +19,7 @@ public abstract class EzirizReaderBase : ContextBase
     /// </summary>
     /// <param name="context">The context used for reading.</param>
     /// <param name="reader">The binary stream reader used to read data.</param>
-    protected EzirizReaderBase(Context context, BinaryStreamReader reader)
+    protected EzirizReaderBase(Context context, ref BinaryStreamReader reader)
         : base(context, context.Logger)
     {
         Reader = reader;

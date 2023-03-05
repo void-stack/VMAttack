@@ -18,7 +18,7 @@ public class EzirizExceptionReader : EzirizReaderBase
     /// </summary>
     /// <param name="context">The context.</param>
     /// <param name="reader">The binary stream reader.</param>
-    public EzirizExceptionReader(Context context, BinaryStreamReader reader) : base(context, reader)
+    public EzirizExceptionReader(Context context, ref BinaryStreamReader reader) : base(context, ref reader)
     {
         _context = context;
     }
@@ -27,7 +27,7 @@ public class EzirizExceptionReader : EzirizReaderBase
     ///     Reads an EzirizException from the binary stream.
     /// </summary>
     /// <returns>The read EzirizException.</returns>
-    public EzirizException Read()
+    public EzirizException ReadEh()
     {
         var module = _context.Module;
 

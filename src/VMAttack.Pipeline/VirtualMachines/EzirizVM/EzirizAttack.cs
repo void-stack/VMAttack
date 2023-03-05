@@ -4,6 +4,7 @@ using AsmResolver.IO;
 using VMAttack.Core;
 using VMAttack.Core.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
+using VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
 
@@ -14,6 +15,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
 public class EzirizAttack : VirtualMachineAttackBase
 {
     private readonly Disassembler _disassembler;
+    private readonly OpcodeMapper _opcodeMapper;
     private readonly EzirizStreamReader _streamReader;
 
     /// <summary>
@@ -31,6 +33,7 @@ public class EzirizAttack : VirtualMachineAttackBase
         // Initializes a new instance of the CustomDataReader with a BinaryStreamReader and the provided context.
         _streamReader = new EzirizStreamReader(context, new BinaryStreamReader());
         _disassembler = new Disassembler(context, _streamReader);
+        _opcodeMapper = new OpcodeMapper(context, _disassembler);
 
         // Initializes a new instance of the ModuleExplorer with the context.Module.
         _moduleExplorer = new ModuleExplorer(context.Module);
@@ -57,6 +60,7 @@ public class EzirizAttack : VirtualMachineAttackBase
         Logger.Debug("Unique used opcodes used in disassembler: byte[] {" +
                      string.Join(", ", _disassembler.UsedOpcodesMap) + "};");
 
+        _opcodeMapper.MapOpcodes();
         // Pattern match the unique opcodes? make ast?
     }
 

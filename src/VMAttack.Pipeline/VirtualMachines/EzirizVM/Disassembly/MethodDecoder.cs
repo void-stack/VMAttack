@@ -32,7 +32,7 @@ public class MethodDecoder : EzirizReaderBase
     /// <param name="reader">The BinaryStreamReader used to read binary data from a stream.</param>
     /// <param name="ezirizStream">The EzirizStream object containing the binary data to be read.</param>
     public MethodDecoder(Context context, BinaryStreamReader reader, EzirizStreamReader ezirizStream) : base(context,
-        reader)
+        ref reader)
     {
         _context = context;
         _ezirizStream = ezirizStream;
@@ -149,11 +149,12 @@ public class MethodDecoder : EzirizReaderBase
     {
         Logger.Info($"Reading {count} exception handlers...");
 
+        var reader = new EzirizExceptionReader(_context, ref Reader);
+
         for (int i = 0; i < count; i++)
         {
-            var eh = new EzirizExceptionReader(_context, Reader).Read();
+            var eh = reader.ReadEh();
             method.EzirizBody.ExceptionHandlers.Add(eh);
-
             Logger.Debug($"\t{eh.ToString()}");
         }
     }
