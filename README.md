@@ -19,6 +19,7 @@ The goal is to help security researchers detect and identify malware that uses t
 [Getting started](#getting-started) •
 [Implemented VMs](#implemented-vms) •
 [Dependencies](#dependencies) •
+[Installation](#installation) •
 
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-black-magic.svg)](https://forthebadge.com)
 
@@ -32,8 +33,18 @@ Virtualization is a common form of code obfuscation. It transforms code into a v
 
 
 ## Implemented VMs 
--------------------
+------------------
 - [Eziriz .NET Reactor](doc/Eziriz/Readme.md) [WIP]
+
+## Installation
+---------------
+To build the project from the commandline, use:
+```
+$ git clone --recurse-submodules https://github.com/void-stack/VMAttack.git
+
+$ dotnet restore
+$ dotnet build
+```
 
 ## Dependencies
 ---------------
