@@ -2,18 +2,18 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 public class EzirizOpcode
 {
-    public EzirizOpcode(EzirizCode ezirizCode, short codeValue)
+    public EzirizOpcode(int code)
     {
-        CodeValue = codeValue;
-        EzirizCode = ezirizCode;
+        Code = code;
     }
 
-    public EzirizCode EzirizCode { get; }
-    public short CodeValue { get; }
+    public EzirizCode EzirizCode => EzirizCode.Unknown;
+
+    public int Code { get; }
 
     public override string ToString()
     {
-        return $"opcode_{EzirizCode} ({CodeValue})";
+        return $"opcode_{EzirizCode} ({Code})";
     }
 }
 
@@ -43,6 +43,6 @@ public class EzirizInstruction
     public override string ToString()
     {
         string str = $"VM_{Offset:X4}" + ": " + Opcode;
-        return Operand != null ? $"{str} {Operand}" : str;
+        return Operand != null ? $"{str} Operand: {Operand}" : str;
     }
 }

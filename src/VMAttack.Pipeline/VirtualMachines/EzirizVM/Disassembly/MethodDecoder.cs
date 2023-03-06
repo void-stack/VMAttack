@@ -85,7 +85,7 @@ public class MethodDecoder : EzirizReaderBase
         {
             byte b = Reader.ReadByte();
 
-            var code = new EzirizOpcode(EzirizCode.Unknown, b);
+            var code = new EzirizOpcode(b);
 
             var instr = new EzirizInstruction(code)
             {
@@ -148,14 +148,23 @@ public class MethodDecoder : EzirizReaderBase
     private void ReadExceptionHandlers(EzirizMethod method, int count)
     {
         Logger.Info($"Reading {count} exception handlers...");
+        var exceptions = method.EzirizBody.ExceptionHandlers;
 
         var reader = new EzirizExceptionReader(_context, ref Reader);
 
         for (int i = 0; i < count; i++)
         {
             var eh = reader.ReadEh();
-            method.EzirizBody.ExceptionHandlers.Add(eh);
-            Logger.Debug($"\t{eh.ToString()}");
+            exceptions.Add(eh);
         }
+
+        if (exceptions.Count <= 0)
+            return;
+
+        Logger.Debug("Sorting exception handlers...");
+        exceptions.Sort((x, y) => x.TryStart.CompareTo(y.TryStart));
+
+        foreach (var exception in exceptions)
+            Logger.Debug(exception.ToString());
     }
 }

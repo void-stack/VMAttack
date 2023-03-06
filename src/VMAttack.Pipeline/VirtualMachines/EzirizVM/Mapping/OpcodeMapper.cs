@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
-using Echo.Ast.Construction;
 using Echo.ControlFlow;
 using Echo.Core.Graphing.Analysis.Traversal;
 using Echo.Platforms.AsmResolver;
@@ -12,14 +12,20 @@ using VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping;
 
+using FlowNode = ControlFlowNode<CilInstruction>;
+
 public class OpcodeMapper : ContextBase
 {
     private readonly Disassembler _disassembler;
+    private readonly Dictionary<int, List<FlowNode>> _handlers;
 
     public OpcodeMapper(Context context, Disassembler disassembler) : base(context, context.Logger)
     {
         _disassembler = disassembler;
+        _handlers = new Dictionary<int, List<FlowNode>>();
     }
+
+    private IEnumerable<int> UsedOpcodesMap => _disassembler.UsedOpcodesMap;
 
     public void MapOpcodes()
     {
@@ -30,12 +36,12 @@ public class OpcodeMapper : ContextBase
             throw new DevirtualizationException("Could not find opcode handler method!");
 
         var cilBody = opCodeMethod.CilMethodBody;
-
         var flowGraph = cilBody.ConstructSymbolicFlowGraph(out var dataFlowGraph);
 
+        // TODO: Fix this, echo has bugs
         // Parses the Abstract Syntax Tree (AST) from the flow graph.
-        var parser = new AstParser<CilInstruction>(flowGraph, dataFlowGraph);
-        var ast = parser.Parse();
+        //var parser = new AstParser<CilInstruction>(flowGraph, dataFlowGraph);
+        //var ast = parser.Parse();
 
         // Iterates through each node in the flow graph.
         foreach (var node in flowGraph.Nodes)
@@ -52,8 +58,9 @@ public class OpcodeMapper : ContextBase
             // Iterates through each possible opcode.
             for (int opcode = 0; opcode < edges.Length; opcode++)
             {
-                // Writes debug information to the logger.
-                Logger.Debug($"Dumping handler with opcode {opcode}");
+                // Check if the opcode is used in the disassembled code.
+                if (!UsedOpcodesMap.Contains(opcode))
+                    continue;
 
                 // Gets the target node of the current opcode.
                 var handler = edges[opcode].Target;
@@ -65,22 +72,29 @@ public class OpcodeMapper : ContextBase
 
                 // Gets the full traversal order of the control flow graph.
                 var fullTraversal = recorder.GetTraversal();
+                var astFullTraversal = new List<FlowNode>();
 
                 // Iterates through each node in the traversal order.
                 foreach (var recordedNode in fullTraversal)
                 {
-                    if (recordedNode is not ControlFlowNode<CilInstruction> handlerNode)
+                    if (recordedNode is not FlowNode handlerNode)
                         continue;
 
+                    astFullTraversal.Add(handlerNode);
+
                     // Gets the AST node associated with the current handler node.
-                    var astNode = ast.GetNodeByOffset(handlerNode.Offset);
-                    Console.WriteLine(astNode.Contents);
+                    //var astNode = ast.GetNodeByOffset(handlerNode.Offset);
+                    //astFullTraversal.Add(astNode);
+
+                    Console.WriteLine(handlerNode.Contents);
                 }
 
-                // Writes debug information to the logger.
-                Logger.Debug($"End of handler with opcode {opcode}\n");
+                _handlers.Add(opcode, astFullTraversal);
+                Logger.Debug($"Dumped handle with opcode {opcode}");
             }
         }
+
+        Logger.Info($"Dumped {_handlers.Count} used handles.");
     }
 
     /// <summary>
@@ -88,7 +102,7 @@ public class OpcodeMapper : ContextBase
     /// </summary>
     /// <param name="module"></param>
     /// <returns></returns>
-    private static MethodDefinition? FindOpCodeMethod(ModuleDefinition module)
+    private MethodDefinition? FindOpCodeMethod(ModuleDefinition module)
     {
         foreach (var type in module.GetAllTypes())
         {
@@ -96,7 +110,13 @@ public class OpcodeMapper : ContextBase
                 q.IsIL && q.CilMethodBody?.Instructions != null &&
                 q.CilMethodBody.Instructions.Count >= 3200 &&
                 q.CilMethodBody.Instructions.Count(d => d.OpCode == CilOpCodes.Switch) == 1);
-            if (method != null) return method;
+
+            if (method == null)
+                continue;
+
+            Logger.Debug(
+                $"Treating method with MetadataToken 0x{method.MetadataToken.ToInt32():X4} as opcode handler.");
+            return method;
         }
 
         return null;

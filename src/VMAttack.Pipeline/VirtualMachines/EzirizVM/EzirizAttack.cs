@@ -52,16 +52,11 @@ public class EzirizAttack : VirtualMachineAttackBase
         Console.Write("\n");
         foreach (var methodKey in _streamReader.MethodKeys)
         {
-            _disassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
+            var disassembledMethod = _disassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
             Console.Write("\n");
         }
 
-        // Get all distinct opcodes used in virtualized method sorted  
-        Logger.Debug("Unique used opcodes used in disassembler: byte[] {" +
-                     string.Join(", ", _disassembler.UsedOpcodesMap) + "};");
-
         _opcodeMapper.MapOpcodes();
-        // Pattern match the unique opcodes? make ast?
     }
 
     /// <summary>

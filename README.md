@@ -9,6 +9,8 @@
 
 <div align="center">
 
+<img src="assets/Logo.png">
+
 # VMAttack - Research Tool
 
 VMAttack is a **work-in-progress** project focused on **.NET Virtual machines**. 
