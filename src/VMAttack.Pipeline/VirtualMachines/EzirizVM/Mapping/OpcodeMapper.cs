@@ -52,18 +52,18 @@ public class OpcodeMapper : ContextBase
             if (contents.Footer.OpCode.Code != CilCode.Switch)
                 continue;
 
-            // Gets the edges of the current node.
-            var edges = node.ConditionalEdges.ToArray();
+            // Gets the cases of switch. First label is assigned to first opcode and so on.
+            var cases = contents.Footer.Operand as IList<ICilLabel>;
 
-            // Iterates through each possible opcode.
-            for (int opcode = 0; opcode < edges.Length; opcode++)
+            // Iterates through each opcode.
+            for (int opcode = 0; opcode < cases!.Count; opcode++)
             {
                 // Check if the opcode is used in the disassembled code.
                 if (!UsedOpcodesMap.Contains(opcode))
                     continue;
 
                 // Gets the target node of the current opcode.
-                var handler = edges[opcode].Target;
+                var handler = flowGraph.GetNodeByOffset(cases[opcode].Offset);
 
                 // Traverses the control flow graph and records the traversal order.
                 var traversal = new DepthFirstTraversal();
@@ -83,8 +83,8 @@ public class OpcodeMapper : ContextBase
                     astFullTraversal.Add(handlerNode);
 
                     // Gets the AST node associated with the current handler node.
-                    //var astNode = ast.GetNodeByOffset(handlerNode.Offset);
-                    //astFullTraversal.Add(astNode);
+                    // var astNode = ast.GetNodeByOffset(handlerNode.Offset);
+                    // astFullTraversal.Add(astNode);
 
                     Console.WriteLine(handlerNode.Contents);
                 }
@@ -94,7 +94,7 @@ public class OpcodeMapper : ContextBase
             }
         }
 
-        Logger.Info($"Dumped {_handlers.Count} used handles.");
+        Logger.Info($"Dumped {_handlers.Count} used handles. F");
     }
 
     /// <summary>
