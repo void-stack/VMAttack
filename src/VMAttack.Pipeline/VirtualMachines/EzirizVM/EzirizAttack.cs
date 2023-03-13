@@ -59,6 +59,7 @@ public class EzirizAttack : VirtualMachineAttackBase
             {
                 var opcode = instruction.Opcode;
 
+                // this is just test...
                 if (opcode.TryIdentify(out var cilCode))
                     Logger.Info($"Pattern Matched {cilCode} at {instruction.Offset:X8} in {instruction}");
             }

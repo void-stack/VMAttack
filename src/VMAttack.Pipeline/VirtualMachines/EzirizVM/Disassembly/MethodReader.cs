@@ -13,7 +13,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
 ///     The class is used to decode a method from the EzirizStream and create an EzirizMethod from it.
 ///     The decoded method is created based on the given id and methodOffset.
 /// </summary>
-public class MethodDecoder : EzirizReaderBase
+public class MethodReader : EzirizReaderBase
 {
     /// <summary>
     ///     The context object used in the decoding process.
@@ -31,7 +31,7 @@ public class MethodDecoder : EzirizReaderBase
     /// <param name="context">The context object used in the decoding process.</param>
     /// <param name="reader">The BinaryStreamReader used to read binary data from a stream.</param>
     /// <param name="ezirizStream">The EzirizStream object containing the binary data to be read.</param>
-    public MethodDecoder(Context context, BinaryStreamReader reader, EzirizStreamReader ezirizStream) : base(context,
+    public MethodReader(Context context, BinaryStreamReader reader, EzirizStreamReader ezirizStream) : base(context,
         ref reader)
     {
         _context = context;

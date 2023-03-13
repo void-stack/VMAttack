@@ -26,7 +26,7 @@ public class InstructionDetectorV1 : InstructionDetectorBase
         return _instance;
     }
 
-    private void AddDetector(DetectAttribute attr, Detector callback)
+    private void AddDetector(DetectV1Attribute attr, Detector callback)
     {
         if (!_detectors.ContainsKey(attr.Code))
             _detectors.Add(attr.Code, callback);
@@ -40,7 +40,7 @@ public class InstructionDetectorV1 : InstructionDetectorBase
         var methods = extensions.GetMethods();
 
         foreach (var method in methods)
-        foreach (var attr in method.GetCustomAttributes<DetectAttribute>())
+        foreach (var attr in method.GetCustomAttributes<DetectV1Attribute>())
         {
             var detector = (Detector)Delegate.CreateDelegate(typeof(Detector), method);
 

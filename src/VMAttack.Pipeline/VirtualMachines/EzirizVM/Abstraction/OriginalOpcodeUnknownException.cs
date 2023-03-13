@@ -7,8 +7,8 @@ public class OriginalOpcodeUnknownException : Exception
 {
     public OriginalOpcodeUnknownException(EzirizOpcode instruction)
     {
-        VirtualInstruction = instruction;
+        EzirizOpcode = instruction;
     }
 
-    public EzirizOpcode VirtualInstruction { get; }
+    public EzirizOpcode EzirizOpcode { get; }
 }

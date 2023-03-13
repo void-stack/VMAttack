@@ -6,7 +6,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping.Detection._6._9._0.
 
 public static partial class Handler
 {
-    [Detect(CilCode.Call)]
+    [DetectV1(CilCode.Call)]
     public static bool Is_CallPattern(this EzirizOpcode ins)
     {
         return ins.HandlerMatchesEntire(new[]

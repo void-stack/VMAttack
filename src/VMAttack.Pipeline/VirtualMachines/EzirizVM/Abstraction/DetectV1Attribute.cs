@@ -3,9 +3,9 @@ using AsmResolver.PE.DotNet.Cil;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Abstraction;
 
-public class DetectAttribute : Attribute
+public class DetectV1Attribute : Attribute
 {
-    public DetectAttribute(CilCode code)
+    public DetectV1Attribute(CilCode code)
     {
         Code = code;
     }

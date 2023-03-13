@@ -6,7 +6,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping.Detection._6._9._0.
 
 public static partial class Handler
 {
-    [Detect(CilCode.Ldstr)]
+    [DetectV1(CilCode.Ldstr)]
     public static bool Is_Ldstr(this EzirizOpcode ins)
     {
         return ins.HandlerMatchesEntire(new[]

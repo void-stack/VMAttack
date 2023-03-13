@@ -16,7 +16,7 @@ public class Disassembler : ContextBase
     private readonly Dictionary<uint, EzirizMethod> _disassembledMethods = new();
     private readonly HandlerMapper _handlerMapper;
 
-    private readonly MethodDecoder _methodDecoder;
+    private readonly MethodReader _methodReader;
 
     // Stores all the opcodes that have been used in the disassembled methods
     private readonly List<int> _usedEzirizCodes = new();
@@ -35,7 +35,7 @@ public class Disassembler : ContextBase
             throw new DevirtualizationException("Cannot create reader for disassembler!");
 
         _handlerMapper = new HandlerMapper(context);
-        _methodDecoder = new MethodDecoder(context, reader, ezirizStreamReader);
+        _methodReader = new MethodReader(context, reader, ezirizStreamReader);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class Disassembler : ContextBase
         if (!_disassembledMethods.TryGetValue(id, out var method))
         {
             Logger.Info($"Created new method_{id:X4}, reading from offset {methodOffset:X8}.");
-            var disassembled = _methodDecoder.CreateMethod(id, methodOffset);
+            var disassembled = _methodReader.CreateMethod(id, methodOffset);
 
             InsertMethod(id, disassembled);
 
