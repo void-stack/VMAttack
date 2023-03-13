@@ -1,8 +1,8 @@
 ﻿namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
-public class EzirizLocal
+public class EzirizVariable
 {
-    public EzirizLocal(uint index, EzirizType type, bool isByRef)
+    public EzirizVariable(uint index, EzirizType type, bool isByRef)
     {
         Index = index;
         Type = type;

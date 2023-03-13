@@ -6,7 +6,13 @@ namespace VMAttack;
 
 public class ConsoleLogger : ILogger
 {
+#if DEBUG
     private readonly Logger _logger = new LoggerConfiguration().WriteTo.Console().MinimumLevel.Verbose().CreateLogger();
+#else
+    private readonly Logger _logger =
+        new LoggerConfiguration().WriteTo.Console().MinimumLevel.Information().CreateLogger();
+#endif
+
 
     public void Debug(string m)
     {

@@ -23,7 +23,7 @@ public class EzirizStreamReader : EzirizReaderBase
     public EzirizStreamReader(Context context, BinaryStreamReader reader)
         : base(context, ref reader)
     {
-        Logger.Debug("Starting to read Eziriz Stream...");
+        Logger.Info("Starting to read Eziriz Stream...");
 
         // Try to find the Eziriz resource data.
         if (!TryGetResource(out ManifestResource))

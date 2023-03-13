@@ -62,8 +62,8 @@ public class MethodDecoder : EzirizReaderBase
         // Creates a new EzirizMethod with the parent method, id, and methodOffset.
         var method = new EzirizMethod(parentMethod, id, methodOffset);
 
-        // Reads the locals, exception handlers, and instructions for the method.
-        ReadLocals(method, localsCount);
+        // Reads the variables, exception handlers, and instructions for the method.
+        ReadVariables(method, localsCount);
         ReadExceptionHandlers(method, exceptionHandlersCount);
         ReadInstructions(method, instructionsCount);
 
@@ -85,9 +85,8 @@ public class MethodDecoder : EzirizReaderBase
         {
             byte b = Reader.ReadByte();
 
-            var code = new EzirizOpcode(b);
-
-            var instr = new EzirizInstruction(code)
+            var opcode = new EzirizOpcode(b);
+            var instr = new EzirizInstruction(opcode)
             {
                 Offset = Reader.Offset
             };
@@ -120,7 +119,7 @@ public class MethodDecoder : EzirizReaderBase
         }
     }
 
-    private void ReadLocals(EzirizMethod method, int count)
+    private void ReadVariables(EzirizMethod method, int count)
     {
         Logger.Info($"Reading {count} locals...");
 
@@ -133,12 +132,12 @@ public class MethodDecoder : EzirizReaderBase
                 var type = (EzirizType)encryptedType & (EzirizType)31;
                 bool isByRef = (encryptedType & 32) > 0;
 
-                method.EzirizBody.Locals.Add(new EzirizLocal(index, type, isByRef));
+                method.EzirizBody.Locals.Add(new EzirizVariable(index, type, isByRef));
             }
             else
             {
                 Logger.Warn("Adding unknown local type!");
-                method.EzirizBody.Locals.Add(new EzirizLocal(index, EzirizType.Object, false));
+                method.EzirizBody.Locals.Add(new EzirizVariable(index, EzirizType.Object, false));
             }
 
             Logger.Debug($"\t{method.EzirizBody.Locals[(int)index]}");

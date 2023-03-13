@@ -4,7 +4,6 @@ using AsmResolver.IO;
 using VMAttack.Core;
 using VMAttack.Core.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
-using VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
 
@@ -15,13 +14,13 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
 public class EzirizAttack : VirtualMachineAttackBase
 {
     private readonly Disassembler _disassembler;
-    private readonly OpcodeMapper _opcodeMapper;
-    private readonly EzirizStreamReader _streamReader;
 
     /// <summary>
     ///     Gets the module explorer for this attack.
     /// </summary>
-    private ModuleExplorer _moduleExplorer;
+    private readonly ModuleExplorer _moduleExplorer;
+
+    private readonly EzirizStreamReader _streamReader;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="EzirizAttack" /> class.
@@ -33,7 +32,6 @@ public class EzirizAttack : VirtualMachineAttackBase
         // Initializes a new instance of the CustomDataReader with a BinaryStreamReader and the provided context.
         _streamReader = new EzirizStreamReader(context, new BinaryStreamReader());
         _disassembler = new Disassembler(context, _streamReader);
-        _opcodeMapper = new OpcodeMapper(context, _disassembler);
 
         // Initializes a new instance of the ModuleExplorer with the context.Module.
         _moduleExplorer = new ModuleExplorer(context.Module);
@@ -42,7 +40,10 @@ public class EzirizAttack : VirtualMachineAttackBase
     /// <summary>
     ///     Gets the type of virtual machine this attack targets.
     /// </summary>
-    public override VirtualMachineType Target => VirtualMachineType.Eziriz;
+    public override VirtualMachineType Target
+    {
+        get { return VirtualMachineType.Eziriz; }
+    }
 
     /// <summary>
     ///     This method is called to perform the devirtualization attack.
@@ -53,10 +54,17 @@ public class EzirizAttack : VirtualMachineAttackBase
         foreach (var methodKey in _streamReader.MethodKeys)
         {
             var disassembledMethod = _disassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
+
+            foreach (var instruction in disassembledMethod.EzirizBody.Instructions)
+            {
+                var opcode = instruction.Opcode;
+
+                if (opcode.TryIdentify(out var cilCode))
+                    Logger.Info($"Pattern Matched {cilCode} at {instruction.Offset:X8} in {instruction}");
+            }
+
             Console.Write("\n");
         }
-
-        _opcodeMapper.MapOpcodes();
     }
 
     /// <summary>

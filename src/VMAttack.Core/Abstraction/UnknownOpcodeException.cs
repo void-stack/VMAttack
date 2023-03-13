@@ -1,0 +1,1 @@
+﻿namespace VMAttack.Core.Abstraction;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
@@ -8,26 +7,51 @@ using Echo.Core.Graphing.Analysis.Traversal;
 using Echo.Platforms.AsmResolver;
 using VMAttack.Core;
 using VMAttack.Core.Abstraction;
-using VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
+using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping;
 
 using FlowNode = ControlFlowNode<CilInstruction>;
 
-public class OpcodeMapper : ContextBase
+/// <summary>
+///     The OpcodeMapper class is responsible for mapping opcodes to their corresponding handler patterns.
+/// </summary>
+public class HandlerMapper : ContextBase
 {
-    private readonly Disassembler _disassembler;
-    private readonly Dictionary<int, List<FlowNode>> _handlers;
-
-    public OpcodeMapper(Context context, Disassembler disassembler) : base(context, context.Logger)
+    /// <summary>
+    ///     Initializes a new instance of the OpcodeMapper class.
+    /// </summary>
+    /// <param name="context">The context in which the opcode mapper is operating.</param>
+    public HandlerMapper(Context context) : base(context, context.Logger)
     {
-        _disassembler = disassembler;
-        _handlers = new Dictionary<int, List<FlowNode>>();
+        MapOpCodeHandlers();
     }
 
-    private IEnumerable<int> UsedOpcodesMap => _disassembler.UsedOpcodesMap;
+    /// <summary>
+    ///     Gets the dictionary of mapped opcodes to their corresponding instructions.
+    /// </summary>
+    private Dictionary<int, List<CilInstruction>> MappedCodeHandlers { get; } = new();
 
-    public void MapOpcodes()
+    public bool TryToSetOpcodeHandler(EzirizOpcode opcode)
+    {
+        if (!MappedCodeHandlers.TryGetValue(opcode.Code, out var handlerInstructions))
+            return false;
+
+        opcode.HandlerPattern = handlerInstructions;
+        return true;
+    }
+
+    private void AddHandler(int opcode, List<CilInstruction> instructions)
+    {
+        Logger.Debug(MappedCodeHandlers.TryAdd(opcode, instructions)
+            ? $"Added handler for opcode {opcode}"
+            : $"Failed to add handler for opcode {opcode}");
+    }
+
+    /// <summary>
+    ///     Maps the opcodes to their corresponding handler patterns.
+    /// </summary>
+    private void MapOpCodeHandlers()
     {
         // Finds the method that handles opcodes in the module.
         var opCodeMethod = FindOpCodeMethod(Context.Module);
@@ -36,12 +60,9 @@ public class OpcodeMapper : ContextBase
             throw new DevirtualizationException("Could not find opcode handler method!");
 
         var cilBody = opCodeMethod.CilMethodBody;
-        var flowGraph = cilBody.ConstructSymbolicFlowGraph(out var dataFlowGraph);
+        cilBody?.Instructions.OptimizeMacros(); // de4dot
 
-        // TODO: Fix this, echo has bugs
-        // Parses the Abstract Syntax Tree (AST) from the flow graph.
-        //var parser = new AstParser<CilInstruction>(flowGraph, dataFlowGraph);
-        //var ast = parser.Parse();
+        var flowGraph = cilBody.ConstructSymbolicFlowGraph(out var dataFlowGraph);
 
         // Iterates through each node in the flow graph.
         foreach (var node in flowGraph.Nodes)
@@ -58,10 +79,6 @@ public class OpcodeMapper : ContextBase
             // Iterates through each opcode.
             for (int opcode = 0; opcode < cases!.Count; opcode++)
             {
-                // Check if the opcode is used in the disassembled code.
-                if (!UsedOpcodesMap.Contains(opcode))
-                    continue;
-
                 // Gets the target node of the current opcode.
                 var handler = flowGraph.GetNodeByOffset(cases[opcode].Offset);
 
@@ -72,7 +89,7 @@ public class OpcodeMapper : ContextBase
 
                 // Gets the full traversal order of the control flow graph.
                 var fullTraversal = recorder.GetTraversal();
-                var astFullTraversal = new List<FlowNode>();
+                var nodes = new List<FlowNode>();
 
                 // Iterates through each node in the traversal order.
                 foreach (var recordedNode in fullTraversal)
@@ -80,22 +97,19 @@ public class OpcodeMapper : ContextBase
                     if (recordedNode is not FlowNode handlerNode)
                         continue;
 
-                    astFullTraversal.Add(handlerNode);
-
-                    // Gets the AST node associated with the current handler node.
-                    // var astNode = ast.GetNodeByOffset(handlerNode.Offset);
-                    // astFullTraversal.Add(astNode);
-
-                    Console.WriteLine(handlerNode.Contents);
+                    nodes.Add(handlerNode);
                 }
 
-                _handlers.Add(opcode, astFullTraversal);
-                Logger.Debug($"Dumped handle with opcode {opcode}");
+                var basicBlocks = nodes.Select(q => q.Contents).ToList();
+                var instructions = basicBlocks.SelectMany(q => q.Instructions).ToList();
+
+                AddHandler(opcode, instructions);
             }
         }
 
-        Logger.Info($"Dumped {_handlers.Count} used handles. F");
+        Logger.Info($"Dumped {MappedCodeHandlers.Count} used handles.");
     }
+
 
     /// <summary>
     ///     Experimental method to find the opcode handler method

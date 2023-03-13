@@ -8,7 +8,7 @@ public class EzirizMethodBody
     {
         Parent = parent;
 
-        Locals = new List<EzirizLocal>();
+        Locals = new List<EzirizVariable>();
         Instructions = new List<EzirizInstruction>();
         ExceptionHandlers = new List<EzirizException>();
     }
@@ -19,5 +19,5 @@ public class EzirizMethodBody
 
     public List<EzirizInstruction> Instructions { get; }
 
-    public List<EzirizLocal> Locals { get; }
+    public List<EzirizVariable> Locals { get; }
 }

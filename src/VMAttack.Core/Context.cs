@@ -27,13 +27,13 @@ public class Context
         if (!File.Exists(options.InputFile))
             throw new FileNotFoundException($"Input file {options.InputFile} not found.");
 
-        logger.Debug($"Loading PEFile ({options.InputFile})");
+        logger.Info($"Loading PEFile ({options.InputFile})");
         PeFile = PEFile.FromFile(options.InputFile);
 
-        logger.Debug("Loading PEImage...");
+        logger.Info("Loading PEImage...");
         var peImage = PEImage.FromFile(PeFile);
 
-        logger.Debug("Loading ModuleDefinition...");
+        logger.Info("Loading ModuleDefinition...");
         Module = ModuleDefinition.FromImage(peImage);
     }
 
