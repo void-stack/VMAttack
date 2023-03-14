@@ -30,23 +30,27 @@ public class HandlerMapper : ContextBase
     /// <summary>
     ///     Gets the dictionary of mapped opcodes to their corresponding instructions.
     /// </summary>
-    private Dictionary<int, List<CilInstruction>> MappedCodeHandlers { get; } = new();
+    private Dictionary<int, List<CilInstruction>> ParsedHandlers { get; } = new();
 
-    public bool TryToSetOpcodeHandler(EzirizOpcode opcode)
+    public bool TryGetOpcodeHandler(byte code, out EzirizHandler handler)
     {
-        if (!MappedCodeHandlers.TryGetValue(opcode.Code, out var handlerInstructions))
-            return false;
+        if (ParsedHandlers.TryGetValue(code, out var handlerInstructions))
+        {
+            handler = new EzirizHandler(handlerInstructions);
+            return true;
+        }
 
-        opcode.HandlerPattern = handlerInstructions;
-        return true;
+        handler = new EzirizHandler();
+        return false;
     }
 
     private void AddHandler(int opcode, List<CilInstruction> instructions)
     {
-        Logger.Debug(MappedCodeHandlers.TryAdd(opcode, instructions)
+        Logger.Debug(ParsedHandlers.TryAdd(opcode, instructions)
             ? $"Added handler for opcode {opcode}"
             : $"Failed to add handler for opcode {opcode}");
     }
+
 
     /// <summary>
     ///     Maps the opcodes to their corresponding handler patterns.
@@ -62,10 +66,11 @@ public class HandlerMapper : ContextBase
         var cilBody = opCodeMethod.CilMethodBody;
         cilBody?.Instructions.OptimizeMacros(); // de4dot
 
-        var flowGraph = cilBody.ConstructSymbolicFlowGraph(out var dataFlowGraph);
+        var cfg = cilBody.ConstructSymbolicFlowGraph(out var dfg);
+
 
         // Iterates through each node in the flow graph.
-        foreach (var node in flowGraph.Nodes)
+        foreach (var node in cfg.Nodes)
         {
             var contents = node.Contents;
 
@@ -80,7 +85,7 @@ public class HandlerMapper : ContextBase
             for (int opcode = 0; opcode < cases!.Count; opcode++)
             {
                 // Gets the target node of the current opcode.
-                var handler = flowGraph.GetNodeByOffset(cases[opcode].Offset);
+                var handler = cfg.GetNodeByOffset(cases[opcode].Offset);
 
                 // Traverses the control flow graph and records the traversal order.
                 var traversal = new DepthFirstTraversal();
@@ -107,7 +112,7 @@ public class HandlerMapper : ContextBase
             }
         }
 
-        Logger.Info($"Dumped {MappedCodeHandlers.Count} used handles.");
+        Logger.Info($"Dumped {ParsedHandlers.Count} used handles.");
     }
 
 

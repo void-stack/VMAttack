@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AsmResolver.PE.DotNet.Cil;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 public class EzirizOpcode
 {
-    public EzirizOpcode(int code) : this(code, new List<CilInstruction>())
+    public EzirizOpcode(int code) : this(code, new EzirizHandler(new List<CilInstruction>()))
     {
     }
 
-    public EzirizOpcode(int code, IList<CilInstruction> handlerPattern)
+    public EzirizOpcode(int code, EzirizHandler handler)
     {
         Code = code;
-        HandlerPattern = handlerPattern;
+        Handler = handler;
     }
 
     public int Code { get; }
@@ -23,27 +22,15 @@ public class EzirizOpcode
         get { return EzirizCode.Unknown; }
     }
 
-    public IList<CilInstruction>? HandlerPattern { get; set; }
+    public EzirizHandler Handler { get; set; }
 
-    public bool HasHandlerPattern
+    public bool HasHandler
     {
-        get { return HandlerPattern is { Count: > 0 }; }
+        get { return Handler.Pattern.Count > 0; }
     }
 
     public override string ToString()
     {
         return $"opcode_{EzirizCode} ({Code})";
-    }
-
-    public bool HandlerMatchesEntire(CilCode[] codePattern)
-    {
-        if (codePattern == null)
-            throw new ArgumentNullException();
-
-        if (!HasHandlerPattern)
-            return false;
-
-        var instructions = Helpers.FindOpCodePatterns(HandlerPattern, codePattern);
-        return instructions.Count == 1 && instructions[0].Length == HandlerPattern!.Count;
     }
 }

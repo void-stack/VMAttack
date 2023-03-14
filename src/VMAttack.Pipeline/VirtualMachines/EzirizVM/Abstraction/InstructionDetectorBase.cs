@@ -15,7 +15,7 @@ public abstract class InstructionDetectorBase : IInstructionDetector
             code = Identify(instruction);
             return true;
         }
-        catch (OriginalOpcodeUnknownException ex)
+        catch (OriginalOpcodeUnknownException)
         {
             code = CilCode.Nop;
             return false;

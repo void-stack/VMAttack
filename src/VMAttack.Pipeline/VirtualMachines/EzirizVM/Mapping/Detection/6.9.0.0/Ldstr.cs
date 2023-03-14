@@ -9,7 +9,7 @@ public static partial class Handler
     [DetectV1(CilCode.Ldstr)]
     public static bool Is_Ldstr(this EzirizOpcode ins)
     {
-        return ins.HandlerMatchesEntire(new[]
+        return ins.Handler.MatchesEntire(new[]
         {
             CilCode.Ldsfld, CilCode.Callvirt, CilCode.Brtrue_S, CilCode.Ldarg_0, CilCode.Ldfld, CilCode.Ldsfld,
             CilCode.Ldarg_0, CilCode.Ldfld, CilCode.Unbox_Any, CilCode.Callvirt, CilCode.Newobj, CilCode.Callvirt,

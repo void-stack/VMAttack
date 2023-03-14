@@ -13,7 +13,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
 /// </summary>
 public class EzirizAttack : VirtualMachineAttackBase
 {
-    private readonly Disassembler _disassembler;
+    private readonly EzirizDisassembler _ezirizDisassembler;
 
     /// <summary>
     ///     Gets the module explorer for this attack.
@@ -31,7 +31,7 @@ public class EzirizAttack : VirtualMachineAttackBase
     {
         // Initializes a new instance of the CustomDataReader with a BinaryStreamReader and the provided context.
         _streamReader = new EzirizStreamReader(context, new BinaryStreamReader());
-        _disassembler = new Disassembler(context, _streamReader);
+        _ezirizDisassembler = new EzirizDisassembler(context, _streamReader);
 
         // Initializes a new instance of the ModuleExplorer with the context.Module.
         _moduleExplorer = new ModuleExplorer(context.Module);
@@ -53,7 +53,7 @@ public class EzirizAttack : VirtualMachineAttackBase
         Console.Write("\n");
         foreach (var methodKey in _streamReader.MethodKeys)
         {
-            var disassembledMethod = _disassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
+            var disassembledMethod = _ezirizDisassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
 
             foreach (var instruction in disassembledMethod.EzirizBody.Instructions)
             {
@@ -61,7 +61,7 @@ public class EzirizAttack : VirtualMachineAttackBase
 
                 // this is just test...
                 if (opcode.TryIdentify(out var cilCode))
-                    Logger.Info($"Pattern Matched {cilCode} at {instruction.Offset:X8} in {instruction}");
+                    Logger.Info($"Handler Matched for CilCode.{cilCode} at {instruction.Offset:X8} in {instruction}");
             }
 
             Console.Write("\n");

@@ -6,6 +6,7 @@ using VMAttack.Core;
 using VMAttack.Core.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
+using VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
 
@@ -13,7 +14,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
 ///     The class is used to decode a method from the EzirizStream and create an EzirizMethod from it.
 ///     The decoded method is created based on the given id and methodOffset.
 /// </summary>
-public class MethodReader : EzirizReaderBase
+public class EzirizMethodReader : EzirizReaderBase
 {
     /// <summary>
     ///     The context object used in the decoding process.
@@ -25,15 +26,20 @@ public class MethodReader : EzirizReaderBase
     /// </summary>
     private readonly EzirizStreamReader _ezirizStream;
 
+    private readonly HandlerMapper _handlerMapper;
+
+
     /// <summary>
     ///     Constructor that initializes a new instance of the MethodDecoder class.
     /// </summary>
     /// <param name="context">The context object used in the decoding process.</param>
     /// <param name="reader">The BinaryStreamReader used to read binary data from a stream.</param>
     /// <param name="ezirizStream">The EzirizStream object containing the binary data to be read.</param>
-    public MethodReader(Context context, BinaryStreamReader reader, EzirizStreamReader ezirizStream) : base(context,
+    public EzirizMethodReader(Context context, BinaryStreamReader reader, EzirizStreamReader ezirizStream) : base(
+        context,
         ref reader)
     {
+        _handlerMapper = new HandlerMapper(context);
         _context = context;
         _ezirizStream = ezirizStream;
     }
@@ -84,12 +90,16 @@ public class MethodReader : EzirizReaderBase
         for (int i = 0; i < count; i++)
         {
             byte b = Reader.ReadByte();
-
             var opcode = new EzirizOpcode(b);
             var instr = new EzirizInstruction(opcode)
             {
                 Offset = Reader.Offset
             };
+
+            if (_handlerMapper.TryGetOpcodeHandler(b, out var handler))
+                opcode.Handler = handler;
+            else
+                Logger.Warn($"No handler found for opcode {b}!");
 
             if (b >= 176) throw new DevirtualizationException("Disassembling Exception!");
 
@@ -115,7 +125,9 @@ public class MethodReader : EzirizReaderBase
                 };
 
             method.EzirizBody.Instructions.Add(instr);
+
             Logger.Debug($"\t{instr}");
+            Logger.Debug(string.Format("\t\tHandler: new CilCode[]  {{ " + opcode.Handler + "}};\n"));
         }
     }
 
