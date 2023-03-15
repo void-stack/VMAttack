@@ -59,9 +59,12 @@ public class EzirizAttack : VirtualMachineAttackBase
             {
                 var opcode = instruction.Opcode;
 
-                // this is just test...
-                if (opcode.TryIdentify(out var cilCode))
-                    Logger.Info($"Handler Matched for CilCode.{cilCode} at {instruction.Offset:X8} in {instruction}");
+                // TODO: This is just a test, remove this later.
+                Logger.Debug(opcode.TryIdentify(out var cilCode)
+                    ? $"\tVM_{instruction.Offset:X4}: opcode_{cilCode}" +
+                      (instruction.Operand != null ? $" : {instruction.Operand}" : string.Empty)
+                    : $"\tVM_{instruction.Offset:X4}: {opcode}" +
+                      (instruction.Operand != null ? $" : {instruction.Operand}" : string.Empty));
             }
 
             Console.Write("\n");

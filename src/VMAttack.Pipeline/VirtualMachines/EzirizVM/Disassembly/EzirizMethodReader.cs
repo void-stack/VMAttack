@@ -39,7 +39,7 @@ public class EzirizMethodReader : EzirizReaderBase
         context,
         ref reader)
     {
-        _handlerMapper = new HandlerMapper(context);
+        _handlerMapper = HandlerMapper.GetInstance(context);
         _context = context;
         _ezirizStream = ezirizStream;
     }
@@ -126,8 +126,8 @@ public class EzirizMethodReader : EzirizReaderBase
 
             method.EzirizBody.Instructions.Add(instr);
 
-            Logger.Debug($"\t{instr}");
-            Logger.Debug(string.Format("\t\tHandler: new CilCode[]  {{ " + opcode.Handler + "}};\n"));
+            //Logger.Debug($"\t{instr}");
+            //Logger.Debug(string.Format("\t\tHandler: new CilCode[]  {{ " + opcode.Handler + "}};\n"));
         }
     }
 

@@ -7,7 +7,7 @@ namespace VMAttack.Core;
 /// <summary>
 ///     This class provides helper methods for working with .NET methods.
 /// </summary>
-public static class Helpers
+public static class Utils
 {
     /// <summary>
     ///     Determines whether the given method calls the method with the specified full name.
@@ -36,6 +36,7 @@ public static class Helpers
 
         return false;
     }
+
 
     public static int GetIndexOfFunctionCall(this CilMethodBody? body, string fullMethodName)
     {

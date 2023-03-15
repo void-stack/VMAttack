@@ -7,7 +7,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping.Detection._6._9._0.
 
 public static partial class Handler
 {
-    private static readonly CilCode[] ArithmeticPattern =
+    private static readonly CilCode[] PatternArithmetic =
     {
         CilCode.Ldarg_0,
         CilCode.Ldfld,
@@ -29,20 +29,56 @@ public static partial class Handler
         CilCode.Ldfld,
         CilCode.Ldloc_S,
         CilCode.Ldloc_S,
-        CilCode.Callvirt, // add or mul etc... [20]
+        CilCode.Callvirt, //  CilCode.Callvirt has a override with a pattern [AddPattern, MulPattern, etc] to determine the instruction
         CilCode.Callvirt,
         CilCode.Ret
     };
 
-    [DetectV1(CilCode.Mul)]
-    public static bool Is_MulPattern(this EzirizOpcode ins)
+    private static readonly CilCode[] AddPattern =
     {
-        bool isArithmetic = ins.Handler.MatchesEntire(ArithmeticPattern);
+        CilCode.Ldarg_1, CilCode.Castclass,
+        CilCode.Ldflda, CilCode.Ldfld,
+        CilCode.Add, CilCode.Newobj,
+        CilCode.Ret
+    };
 
-        if (isArithmetic)
+    private static readonly CilCode[] MulPattern =
+    {
+        CilCode.Ldarg_1, CilCode.Castclass,
+        CilCode.Ldflda, CilCode.Ldfld,
+        CilCode.Mul, CilCode.Newobj,
+        CilCode.Ret
+    };
+
+    [DetectV1(CilCode.Mul)]
+    public static bool Is_MulPattern(this EzirizOpcode opcode)
+    {
+        var handler = opcode.Handler;
+        var instructions = handler.Instructions;
+
+        if (handler.MatchesEntire(PatternArithmetic))
         {
-            var operation = ins.Handler.Pattern[20].Operand as MethodDefinition;
-            // get echo to determine if it is a mul Arithmetic operation
+            if (instructions[20].Operand is not MethodDefinition method)
+                return false;
+
+            return handler.HasIndirectOverride(method, MulPattern);
+        }
+
+        return false;
+    }
+
+    [DetectV1(CilCode.Add)]
+    public static bool Is_AddPattern(this EzirizOpcode opcode)
+    {
+        var handler = opcode.Handler;
+        var instructions = handler.Instructions;
+
+        if (handler.MatchesEntire(PatternArithmetic))
+        {
+            if (instructions[20].Operand is not MethodDefinition method)
+                return false;
+
+            return handler.HasIndirectOverride(method, AddPattern);
         }
 
         return false;

@@ -18,25 +18,35 @@ using FlowNode = ControlFlowNode<CilInstruction>;
 /// </summary>
 public class HandlerMapper : ContextBase
 {
-    /// <summary>
-    ///     Initializes a new instance of the OpcodeMapper class.
-    /// </summary>
-    /// <param name="context">The context in which the opcode mapper is operating.</param>
-    public HandlerMapper(Context context) : base(context, context.Logger)
-    {
-        MapOpCodeHandlers();
-    }
+    // make singleton
+    private static HandlerMapper? _instance;
 
     /// <summary>
     ///     Gets the dictionary of mapped opcodes to their corresponding instructions.
     /// </summary>
-    private Dictionary<int, List<CilInstruction>> ParsedHandlers { get; } = new();
+    private readonly Dictionary<int, List<CilInstruction>> _handlers = new();
+
+    private MethodDefinition? _opCodeMethod;
+
+    /// <summary>
+    ///     Initializes a new instance of the OpcodeMapper class.
+    /// </summary>
+    /// <param name="context">The context in which the opcode mapper is operating.</param>
+    private HandlerMapper(Context context) : base(context, context.Logger)
+    {
+        MapOpCodeHandlers();
+    }
+
+    public static HandlerMapper GetInstance(Context context)
+    {
+        return _instance ??= new HandlerMapper(context);
+    }
 
     public bool TryGetOpcodeHandler(byte code, out EzirizHandler handler)
     {
-        if (ParsedHandlers.TryGetValue(code, out var handlerInstructions))
+        if (_handlers.TryGetValue(code, out var handlerInstructions))
         {
-            handler = new EzirizHandler(handlerInstructions);
+            handler = new EzirizHandler(handlerInstructions, _opCodeMethod);
             return true;
         }
 
@@ -46,11 +56,10 @@ public class HandlerMapper : ContextBase
 
     private void AddHandler(int opcode, List<CilInstruction> instructions)
     {
-        Logger.Debug(ParsedHandlers.TryAdd(opcode, instructions)
+        Logger.Debug(_handlers.TryAdd(opcode, instructions)
             ? $"Added handler for opcode {opcode}"
             : $"Failed to add handler for opcode {opcode}");
     }
-
 
     /// <summary>
     ///     Maps the opcodes to their corresponding handler patterns.
@@ -58,16 +67,15 @@ public class HandlerMapper : ContextBase
     private void MapOpCodeHandlers()
     {
         // Finds the method that handles opcodes in the module.
-        var opCodeMethod = FindOpCodeMethod(Context.Module);
+        _opCodeMethod = FindOpCodeMethod(Context.Module);
 
-        if (opCodeMethod is null)
+        if (_opCodeMethod is null)
             throw new DevirtualizationException("Could not find opcode handler method!");
 
-        var cilBody = opCodeMethod.CilMethodBody;
+        var cilBody = _opCodeMethod.CilMethodBody;
         cilBody?.Instructions.OptimizeMacros(); // de4dot
 
         var cfg = cilBody.ConstructSymbolicFlowGraph(out var dfg);
-
 
         // Iterates through each node in the flow graph.
         foreach (var node in cfg.Nodes)
@@ -112,7 +120,7 @@ public class HandlerMapper : ContextBase
             }
         }
 
-        Logger.Info($"Dumped {ParsedHandlers.Count} used handles.");
+        Logger.Info($"Dumped {_handlers.Count} used handles.");
     }
 
 

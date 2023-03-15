@@ -5,7 +5,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 public class EzirizOpcode
 {
-    public EzirizOpcode(int code) : this(code, new EzirizHandler(new List<CilInstruction>()))
+    public EzirizOpcode(int code) : this(code, new EzirizHandler(new List<CilInstruction>(), null!))
     {
     }
 
@@ -26,7 +26,7 @@ public class EzirizOpcode
 
     public bool HasHandler
     {
-        get { return Handler.Pattern.Count > 0; }
+        get { return Handler.Instructions.Count > 0; }
     }
 
     public override string ToString()
