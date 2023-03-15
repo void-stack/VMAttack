@@ -34,51 +34,52 @@ public static partial class Handler
         CilCode.Ret
     };
 
-    private static readonly CilCode[] AddPattern =
-    {
-        CilCode.Ldarg_1, CilCode.Castclass,
-        CilCode.Ldflda, CilCode.Ldfld,
-        CilCode.Add, CilCode.Newobj,
-        CilCode.Ret
-    };
-
-    private static readonly CilCode[] MulPattern =
-    {
-        CilCode.Ldarg_1, CilCode.Castclass,
-        CilCode.Ldflda, CilCode.Ldfld,
-        CilCode.Mul, CilCode.Newobj,
-        CilCode.Ret
-    };
-
     [DetectV1(CilCode.Mul)]
     public static bool Is_MulPattern(this EzirizOpcode opcode)
     {
         var handler = opcode.Handler;
-        var instructions = handler.Instructions;
-
-        if (handler.MatchesEntire(PatternArithmetic))
-        {
-            if (instructions[20].Operand is not MethodDefinition method)
-                return false;
-
-            return handler.HasIndirectOverride(method, MulPattern);
-        }
-
-        return false;
+        return handler.IsArithmetic(CilCode.Mul);
     }
 
     [DetectV1(CilCode.Add)]
     public static bool Is_AddPattern(this EzirizOpcode opcode)
     {
         var handler = opcode.Handler;
+        return handler.IsArithmetic(CilCode.Add);
+    }
+
+    [DetectV1(CilCode.Sub)]
+    public static bool Is_SubPattern(this EzirizOpcode opcode)
+    {
+        var handler = opcode.Handler;
+        return handler.IsArithmetic(CilCode.Sub);
+    }
+
+    [DetectV1(CilCode.Xor)]
+    public static bool Is_XorPattern(this EzirizOpcode opcode)
+    {
+        var handler = opcode.Handler;
+        return handler.IsArithmetic(CilCode.Xor);
+    }
+
+    public static bool IsArithmetic(this EzirizHandler handler, CilCode code)
+    {
         var instructions = handler.Instructions;
+
+        CilCode[] pattern =
+        {
+            CilCode.Ldarg_1, CilCode.Castclass,
+            CilCode.Ldflda, CilCode.Ldfld,
+            code, CilCode.Newobj,
+            CilCode.Ret
+        };
 
         if (handler.MatchesEntire(PatternArithmetic))
         {
             if (instructions[20].Operand is not MethodDefinition method)
                 return false;
 
-            return handler.HasIndirectOverride(method, AddPattern);
+            return handler.HasIndirectOverride(method, pattern);
         }
 
         return false;
