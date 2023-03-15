@@ -12,6 +12,12 @@ Code virtualization was introduced in version `6.2.0.0`
 
 </br>
 
+## Virtualized Representation
+
+<img src="assets/virtualized.png">
+
+</br>
+
 ## C# Representation
 
 <img src="assets/csharp.png">
