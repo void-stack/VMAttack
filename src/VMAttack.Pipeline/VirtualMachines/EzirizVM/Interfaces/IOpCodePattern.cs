@@ -5,7 +5,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
 
 public interface IOpCodePattern : IPattern
 {
-    CilOpCode? CilOpCode => null;
+    CilOpCode? CilOpCode { get; }
     SpecialOpCodes? SpecialOpCode => null;
 
     /// <summary>
