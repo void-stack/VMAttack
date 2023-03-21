@@ -38,6 +38,13 @@ Virtualization is a common form of code obfuscation. It transforms code into a v
 ------------------
 - [Eziriz .NET Reactor](doc/Eziriz/Readme.md) [WIP]
 
+## Others
+---------
+- [KoiVM Washi1337](https://github.com/Washi1337/OldRod)
+- [CawkVM ElektroKill](https://github.com/ElektroKill/CawkVM-Unpacker)
+- [Eazfuscator .NET saneki](https://github.com/saneki/eazdevirt) (new comming soon)
+
+
 ## Installation
 ---------------
 To build the project from the commandline, use:

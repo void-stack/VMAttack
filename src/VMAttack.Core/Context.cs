@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using AsmResolver.DotNet;
-using AsmResolver.DotNet.Builder;
 using AsmResolver.PE;
-using AsmResolver.PE.DotNet.Builder;
 using AsmResolver.PE.File;
 using VMAttack.Core.Interfaces;
 
@@ -82,7 +80,7 @@ public class Context
         if (!Directory.Exists(directory))
             Directory.CreateDirectory(directory);
 
-        Module.Write(newFilename); 
+        Module.Write(newFilename);
 
         // Check if the file was written successfully
         if (File.Exists(newFilename))

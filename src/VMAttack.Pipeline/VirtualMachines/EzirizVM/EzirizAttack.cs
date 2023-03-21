@@ -3,6 +3,7 @@ using AsmResolver.IO;
 using VMAttack.Core;
 using VMAttack.Core.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
+
 //using VMAttack.Pipeline.VirtualMachines.EzirizVM.Recompiler;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
