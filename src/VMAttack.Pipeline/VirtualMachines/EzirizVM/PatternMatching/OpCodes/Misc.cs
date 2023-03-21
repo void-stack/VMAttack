@@ -29,7 +29,7 @@ internal record Ret : IOpCodePattern
 
     public CilOpCode? CilOpCode => CilOpCodes.Ret;
 
-    public bool Verify(EzirizHandler handler) => true;
+    public bool Verify(EzirizOpcode opcode) => true;
 }
 
 #endregion Return

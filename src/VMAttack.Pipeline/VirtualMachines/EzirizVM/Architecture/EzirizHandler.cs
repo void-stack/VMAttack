@@ -13,7 +13,7 @@ public readonly struct EzirizHandler
         Instructions = instructions;
     }
 
-    public bool HasInstructions => Instructions.Count > 0;
+    public bool HasMethodBody => Instructions.Count > 0;
 
     public override string ToString()
     {

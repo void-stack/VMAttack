@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using AsmResolver.DotNet;
 using AsmResolver.DotNet.Serialized;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
 
@@ -14,13 +16,18 @@ public static class PatternHelpers
         if (virtualMethod.Module is null)
             return false;
 
+        var overwrites = new List<MethodDefinition>();
+
         foreach (var t in virtualMethod.Module.GetAllTypes())
         foreach (var vMethod in t.Methods.Where(x => x.IsVirtual && x.HasMethodBody && x.Name == virtualMethod.Name))
         {
-            if (vMethod.CilMethodBody is not null)
-                return PatternMatcher.MatchesPattern(pattern, vMethod);
+            if (vMethod.CilMethodBody is null)
+                continue;
+
+            if (PatternMatcher.GetAllMatchingInstructions(pattern, vMethod.CilMethodBody.Instructions).Count == 1)
+                overwrites.Add(vMethod);
         }
 
-        return false;
+        return overwrites.Count > 0;
     }
 }
