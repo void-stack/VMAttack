@@ -6,6 +6,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
 public interface IOpCodePattern : IPattern
 {
     CilOpCode? CilOpCode => null;
+    SpecialOpCodes? SpecialOpCode => null;
 
     /// <summary>
     ///     Whether the pattern can translate to CIL opcodes or is a special vm action.
