@@ -70,7 +70,7 @@ public class EzirizStreamReader : EzirizReaderBase
             // Read the method IDs and add them to the method keys dictionary.
             for (uint id = 0; id < size; id++)
             {
-                ulong methodId = (ulong)ReadEncryptedByte();
+                ulong methodId = (ulong) ReadEncryptedByte();
                 MethodKeys.Add(id, methodId);
             }
 

@@ -47,7 +47,7 @@ public class VirtualMachineService
     private IEnumerable<VirtualMachineAttackBase> GetImplementedVirtualMachines()
     {
         return GetImplementationsOf<VirtualMachineAttackBase>()
-            .Select(type => (VirtualMachineAttackBase)Activator.CreateInstance(type, Context))
+            .Select(type => (VirtualMachineAttackBase) Activator.CreateInstance(type, Context))
             .ToList();
     }
 

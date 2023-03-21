@@ -9,7 +9,7 @@ using VMAttack.Core;
 using VMAttack.Core.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
-namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping;
+namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.PatternMatching;
 
 using FlowNode = ControlFlowNode<CilInstruction>;
 
@@ -18,15 +18,12 @@ using FlowNode = ControlFlowNode<CilInstruction>;
 /// </summary>
 public class HandlerMapper : ContextBase
 {
-    // make singleton
     private static HandlerMapper? _instance;
 
     /// <summary>
     ///     Gets the dictionary of mapped opcodes to their corresponding instructions.
     /// </summary>
-    private readonly Dictionary<int, List<CilInstruction>> _handlers = new();
-
-    private MethodDefinition? _opCodeMethod;
+    private readonly Dictionary<int, EzirizHandler> _handlers = new Dictionary<int, EzirizHandler>();
 
     /// <summary>
     ///     Initializes a new instance of the OpcodeMapper class.
@@ -34,47 +31,14 @@ public class HandlerMapper : ContextBase
     /// <param name="context">The context in which the opcode mapper is operating.</param>
     private HandlerMapper(Context context) : base(context, context.Logger)
     {
-        MapOpCodeHandlers();
-    }
+        var opCodeMethod = FindOpCodeMethod(Context.Module);
 
-    public static HandlerMapper GetInstance(Context context)
-    {
-        return _instance ??= new HandlerMapper(context);
-    }
-
-    public bool TryGetOpcodeHandler(byte code, out EzirizHandler handler)
-    {
-        if (_handlers.TryGetValue(code, out var handlerInstructions))
-        {
-            handler = new EzirizHandler(handlerInstructions, _opCodeMethod);
-            return true;
-        }
-
-        handler = new EzirizHandler();
-        return false;
-    }
-
-    private void AddHandler(int opcode, List<CilInstruction> instructions)
-    {
-        Logger.Debug(_handlers.TryAdd(opcode, instructions)
-            ? $"Added handler for opcode {opcode}"
-            : $"Failed to add handler for opcode {opcode}");
-    }
-
-    /// <summary>
-    ///     Maps the opcodes to their corresponding handler patterns.
-    /// </summary>
-    private void MapOpCodeHandlers()
-    {
-        // Finds the method that handles opcodes in the module.
-        _opCodeMethod = FindOpCodeMethod(Context.Module);
-
-        if (_opCodeMethod is null)
+        if (opCodeMethod is null)
             throw new DevirtualizationException("Could not find opcode handler method!");
 
-        var cilBody = _opCodeMethod.CilMethodBody;
+        var cilBody = opCodeMethod.CilMethodBody;
         cilBody?.Instructions.OptimizeMacros(); // de4dot
-        
+
         var cfg = cilBody.ConstructSymbolicFlowGraph(out var dfg);
 
         // Iterates through each node in the flow graph.
@@ -120,9 +84,35 @@ public class HandlerMapper : ContextBase
             }
         }
 
-        Logger.Info($"Dumped {_handlers.Count} used handles.");
+        Logger.Info($"Dumped {_handlers.Count} handlers.");
     }
 
+    public static HandlerMapper GetInstance(Context context)
+    {
+        if (_instance == null)
+            _instance = new HandlerMapper(context);
+
+        return _instance;
+    }
+
+    public bool TryGetOpcodeHandler(byte code, out EzirizHandler handler)
+    {
+        if (_handlers.TryGetValue(code, out var handlerInstructions))
+        {
+            handler = handlerInstructions;
+            return true;
+        }
+
+        handler = new EzirizHandler();
+        return false;
+    }
+
+    private void AddHandler(int opcode, IList<CilInstruction> instructions)
+    {
+        Logger.Debug(_handlers.TryAdd(opcode, new EzirizHandler(instructions))
+            ? $"Added handler for opcode {opcode}"
+            : $"Failed to add handler for opcode {opcode}");
+    }
 
     /// <summary>
     ///     Experimental method to find the opcode handler method

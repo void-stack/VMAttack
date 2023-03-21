@@ -12,11 +12,11 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
 public class EzirizDisassembler : ContextBase
 {
     // Stores all the Eziriz methods that have been disassembled so far
-    private readonly Dictionary<uint, EzirizMethod> _disassembledMethods = new();
+    private readonly Dictionary<uint, EzirizMethod> _disassembledMethods = new Dictionary<uint, EzirizMethod>();
     private readonly EzirizMethodReader _ezirizMethodReader;
 
     // Stores all the opcodes that have been used in the disassembled methods
-    private readonly List<int> _usedEzirizCodes = new();
+    private readonly List<int?> _usedEzirizCodes = new List<int?>();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="EzirizDisassembler" /> class with the specified context and Eziriz
@@ -38,7 +38,7 @@ public class EzirizDisassembler : ContextBase
     /// <summary>
     ///     Gets an enumeration of all the opcodes that have been used in the disassembled methods.
     /// </summary>
-    public IEnumerable<int> UsedEzirizCodes
+    public List<int?> UsedEzirizCodes
     {
         get { return _usedEzirizCodes.OrderBy(opcode => opcode).Distinct().ToList(); }
     }
@@ -46,10 +46,7 @@ public class EzirizDisassembler : ContextBase
     /// <summary>
     ///     Gets an enumeration of all the Eziriz methods that have been disassembled so far.
     /// </summary>
-    public IEnumerable<EzirizMethod> Methods
-    {
-        get { return _disassembledMethods.Values; }
-    }
+    public IEnumerable<EzirizMethod> Methods => _disassembledMethods.Values;
 
     /// <summary>
     ///     Gets an existing Eziriz method with the specified ID, or creates a new one if it doesn't exist.
@@ -74,7 +71,7 @@ public class EzirizDisassembler : ContextBase
     {
         var body = disassembled.EzirizBody;
         var instructions = body.Instructions;
-        var opcodes = instructions.Select(x => x.Opcode.Code);
+        var opcodes = instructions.Select(x => x.Opcode.VirtualCode);
 
         _usedEzirizCodes.AddRange(opcodes);
         _disassembledMethods.Add(id, disassembled);

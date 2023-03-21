@@ -33,7 +33,7 @@ public abstract class EzirizReaderBase : ContextBase
     {
         bool flag = false;
         uint num = Reader.ReadByte();
-        uint num2 = 0U | (num & 63U);
+        uint num2 = 0U | num & 63U;
 
         if ((num & 64U) != 0U)
             flag = true;
@@ -41,16 +41,16 @@ public abstract class EzirizReaderBase : ContextBase
         if (num < 128U)
         {
             if (flag)
-                return ~(int)num2;
+                return ~(int) num2;
 
-            return (int)num2;
+            return (int) num2;
         }
 
         int num3 = 0;
         for (;;)
         {
             uint num4 = Reader.ReadByte();
-            num2 |= (num4 & 127U) << (7 * num3 + 6);
+            num2 |= (num4 & 127U) << 7 * num3 + 6;
             if (num4 < 128U)
                 break;
 
@@ -58,8 +58,8 @@ public abstract class EzirizReaderBase : ContextBase
         }
 
         if (flag)
-            return ~(int)num2;
+            return ~(int) num2;
 
-        return (int)num2;
+        return (int) num2;
     }
 }

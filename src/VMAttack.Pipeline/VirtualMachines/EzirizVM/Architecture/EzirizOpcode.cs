@@ -1,36 +1,18 @@
-﻿using System.Collections.Generic;
-using AsmResolver.PE.DotNet.Cil;
+﻿using AsmResolver.PE.DotNet.Cil;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
-public class EzirizOpcode
+public record EzirizOpcode(EzirizHandler Handler)
 {
-    public EzirizOpcode(int code) : this(code, new EzirizHandler(new List<CilInstruction>(), null!))
-    {
-    }
+    public EzirizHandler Handler { get; } = Handler;
+    public static EzirizOpcode DefaultNopOpCode { get; } = new EzirizOpcode(new EzirizHandler());
 
-    public EzirizOpcode(int code, EzirizHandler handler)
-    {
-        Code = code;
-        Handler = handler;
-    }
+    public bool IsIdentified { get; set; } = false;
+    public bool HasVirtualCode { get; set; } = false;
+    public bool HasHandler { get; set; } = false;
+    public int? VirtualCode { get; set; } = null!;
 
-    public int Code { get; }
+    public CilOpCode? CilOpCode { get; set; } = CilOpCodes.Nop;
 
-    public static EzirizCode EzirizCode
-    {
-        get { return EzirizCode.Unknown; }
-    }
-
-    public EzirizHandler Handler { get; set; }
-
-    public bool HasHandler
-    {
-        get { return Handler.Instructions.Count > 0; }
-    }
-
-    public override string ToString()
-    {
-        return $"opcode_{EzirizCode} ({Code})";
-    }
+    public override string ToString() => $"CilOpCode: {CilOpCode} ({VirtualCode})";
 }

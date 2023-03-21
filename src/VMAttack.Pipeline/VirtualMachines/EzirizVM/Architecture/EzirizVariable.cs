@@ -13,8 +13,5 @@ public class EzirizVariable
     public bool IsByRef { get; }
     public EzirizType Type { get; }
 
-    public override string ToString()
-    {
-        return $"V_{Index} : Type {Type} : IsByRef: {IsByRef}";
-    }
+    public override string ToString() => $"V_{Index} : Type {Type} : IsByRef: {IsByRef}";
 }

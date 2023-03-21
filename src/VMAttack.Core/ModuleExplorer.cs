@@ -27,22 +27,18 @@ public class ModuleExplorer
     /// </summary>
     /// <param name="methodDefinition">A delegate that defines the criteria for a matching method.</param>
     /// <returns>The first method that matches the given criteria, or null if no such method is found.</returns>
-    public MethodDefinition? FindMethod(Func<MethodDefinition, bool> methodDefinition)
-    {
+    public MethodDefinition? FindMethod(Func<MethodDefinition, bool> methodDefinition) =>
         // Get all methods in the module and its nested types, and return the first one that matches the given criteria.
-        return GetMethodsRecursive(_module).FirstOrDefault(methodDefinition);
-    }
+        GetMethodsRecursive(_module).FirstOrDefault(methodDefinition);
 
     /// <summary>
     ///     Recursively gets all methods in the given module.
     /// </summary>
     /// <param name="t">The module to get the methods for.</param>
     /// <returns>An enumerable collection of method definitions for the given module.</returns>
-    private static IEnumerable<MethodDefinition> GetMethodsRecursive(ModuleDefinition t)
-    {
+    private static IEnumerable<MethodDefinition> GetMethodsRecursive(ModuleDefinition t) =>
         // Get all types in the module, and get all methods in those types and their nested types.
-        return t.GetAllTypes().SelectMany(GetMethodsRecursive);
-    }
+        t.GetAllTypes().SelectMany(GetMethodsRecursive);
 
     /// <summary>
     ///     Recursively gets all methods in the given type and its nested types.

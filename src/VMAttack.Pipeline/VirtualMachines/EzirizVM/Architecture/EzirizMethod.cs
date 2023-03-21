@@ -17,8 +17,5 @@ public class EzirizMethod
     public MethodDefinition? Parent { get; }
     public EzirizMethodBody EzirizBody { get; }
 
-    public override string ToString()
-    {
-        return $"method_{Id:X4}";
-    }
+    public override string ToString() => $"method_{Id:X4}";
 }
