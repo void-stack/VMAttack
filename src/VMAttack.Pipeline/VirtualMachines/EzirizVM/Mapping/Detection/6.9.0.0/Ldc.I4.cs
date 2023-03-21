@@ -7,7 +7,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping.Detection._6._9._0.
 
 public static partial class Handler
 {
-    private static readonly CilCode[] PatternPush =
+    private static readonly CilCode[] LoadPattern =
     {
         CilCode.Ldarg_0,
         CilCode.Ldfld,
@@ -25,7 +25,7 @@ public static partial class Handler
         var handler = code.Handler;
         var instructions = handler.Instructions;
 
-        if (handler.MatchesEntire(PatternPush))
+        if (handler.MatchesEntire(LoadPattern))
         {
             if (instructions[4].Operand is not TypeReference type)
                 return false;

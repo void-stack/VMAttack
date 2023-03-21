@@ -126,8 +126,8 @@ public class EzirizMethodReader : EzirizReaderBase
 
             method.EzirizBody.Instructions.Add(instr);
 
-            //Logger.Debug($"\t{instr}");
-            //Logger.Debug(string.Format("\t\tHandler: new CilCode[]  {{ " + opcode.Handler + "}};\n"));
+            Logger.Debug($"\t{instr}");
+            Logger.Debug(string.Format("\t\tHandler: new CilCode[]  {{ " + opcode.Handler + "}};\n"));
         }
     }
 

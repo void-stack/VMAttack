@@ -74,7 +74,7 @@ public class HandlerMapper : ContextBase
 
         var cilBody = _opCodeMethod.CilMethodBody;
         cilBody?.Instructions.OptimizeMacros(); // de4dot
-
+        
         var cfg = cilBody.ConstructSymbolicFlowGraph(out var dfg);
 
         // Iterates through each node in the flow graph.

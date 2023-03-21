@@ -1,4 +1,4 @@
-﻿using AsmResolver.DotNet;
+using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
@@ -7,19 +7,19 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Mapping.Detection._6._9._0.
 
 public static partial class Handler
 {
-    [DetectV1(CilCode.Ldarg)]
-    public static bool Is_LdargPattern(this EzirizOpcode code)
+    [DetectV1(CilCode.Ldarga)]
+    public static bool Is_LdargaPattern(this EzirizOpcode code)
     {
+        
         var ldargPattern = new[]
         {
-            CilCode.Ldarg_0, //0
-            CilCode.Ldfld, //1
-            CilCode.Ldarg_0, //2
-            CilCode.Ldfld,  //3
-            CilCode.Ldarg_0, //4
-            CilCode.Ldfld, //5
-            CilCode.Unbox_Any, //6 
-            CilCode.Ldelem_Ref,
+            CilCode.Ldarg_0, 
+            CilCode.Ldfld, 
+            CilCode.Ldarg_0, 
+            CilCode.Ldfld,  
+            CilCode.Unbox_Any, 
+            CilCode.Ldarg_0, 
+            CilCode.Newobj, 
             CilCode.Callvirt, 
             CilCode.Ret
         };
@@ -29,7 +29,7 @@ public static partial class Handler
 
         if (handler.MatchesEntire(ldargPattern))
         {
-            if (instructions[6].Operand is not TypeReference type)
+            if (instructions[4].Operand is not TypeReference type)
                 return false;
 
             var module = type.Module;
