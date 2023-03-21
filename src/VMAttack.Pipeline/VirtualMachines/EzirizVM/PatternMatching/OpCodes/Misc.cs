@@ -11,12 +11,12 @@ internal record CallVirt : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldc_I4_0,
-        CilOpCodes.Call, 
-        CilOpCodes.Ret
+        CilOpCodes.Ldarg_0,  // 1 - ldarg.0
+        CilOpCodes.Ldc_I4_0, // 2 - ldc.i4.0
+        CilOpCodes.Call,     // 3 - call	instance void Eziriz.VM/VMMethodExecutor::CallMethodFromOperand(bool) 
+        CilOpCodes.Ret       // 4 - ret
     };
-    
+
     public CilOpCode? CilOpCode => CilOpCodes.Callvirt;
 
     public bool Verify(EzirizOpcode opcode) => true;
@@ -30,10 +30,10 @@ internal record Call : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldc_I4_1,
-        CilOpCodes.Call, 
-        CilOpCodes.Ret
+        CilOpCodes.Ldarg_0,  // 1 - ldarg.0
+        CilOpCodes.Ldc_I4_1, // 2 - ldc.i4.1
+        CilOpCodes.Call,     // 3 - call	instance void Eziriz.VM/VMMethodExecutor::CallMethodFromOperand(bool) 
+        CilOpCodes.Ret       // 4 - ret
     };
 
     public CilOpCode? CilOpCode => CilOpCodes.Call;

@@ -149,7 +149,6 @@ internal record SubVmTypePattern : IPattern
     };
 
     public bool MatchEntireBody => false;
-
     public bool Verify(EzirizHandler handler) => true;
 }
 
