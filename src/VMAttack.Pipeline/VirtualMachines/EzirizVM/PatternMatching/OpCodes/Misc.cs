@@ -5,6 +5,24 @@ using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.PatternMatching.OpCodes;
 
+#region CallVirt
+
+internal record CallVirt : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Call, 
+        CilOpCodes.Ret
+    };
+    
+    public CilOpCode? CilOpCode => CilOpCodes.Callvirt;
+
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
 
 #region Call
 
