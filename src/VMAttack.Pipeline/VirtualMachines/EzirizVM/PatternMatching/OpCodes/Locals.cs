@@ -40,7 +40,7 @@ internal record Stloc : IOpCodePattern
         CilOpCodes.Ret // 25 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Stloc;
+    public CilOpCode CilOpCode => CilOpCodes.Stloc;
 
     public bool Verify(EzirizHandler handler) => true;
 }
@@ -63,11 +63,11 @@ internal record Ldloc : IOpCodePattern
         CilOpCodes.Ldarg_0,    // 7 - ldarg.0
         CilOpCodes.Ldfld,      // 8 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Ldloc_S,    // 9 - ldloc.s	V_17 (17)
-        CilOpCodes.Callvirt,   // 10 - callvirt	instance void Eziriz.VM/VMStack::AddVMLocal(class Eziriz.VM/VMObject)
+        CilOpCodes.Callvirt,   // 10 - callvirt	instance Void Eziriz.VM/VMStack::AddVMLocal(class Eziriz.VM/VMObject)
         CilOpCodes.Ret         // 11 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Ldloc;
+    public CilOpCode CilOpCode => CilOpCodes.Ldloc;
 
     public bool Verify(EzirizHandler handler) => handler.Instructions[4].Operand is ITypeDefOrRef { FullName: "System.Int32" };
 }

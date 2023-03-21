@@ -50,9 +50,7 @@ public class OpCodeMapper : ContextBase
             }
         }
         else
-        {
             Logger.Debug($"No handler found for opcode {vmCode}");
-        }
 
         _patternMatching.SetOpCodeValue(vmCode, vmOpCode);
         return vmOpCode;

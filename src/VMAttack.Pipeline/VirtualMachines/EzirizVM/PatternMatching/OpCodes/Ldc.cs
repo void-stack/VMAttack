@@ -17,12 +17,12 @@ internal record LdcI4 : IOpCodePattern
         CilOpCodes.Ldarg_0,   // 2 - ldarg.0
         CilOpCodes.Ldfld,     // 3 - ldfld	object Eziriz.VM/VMMethodExecutor::Operand
         CilOpCodes.Unbox_Any, // 4 - unbox.any	[mscorlib]System.Int32
-        CilOpCodes.Newobj,    // 5 - newobj	instance void Eziriz.VM/VMIntegerType::.ctor(int32)
-        CilOpCodes.Callvirt,  // 6 - callvirt	instance void Eziriz.VM/VMStack::AddVMLocal(class Eziriz.VM/VMObject)
+        CilOpCodes.Newobj,    // 5 - newobj	instance Void Eziriz.VM/VMIntegerType::.ctor(int32)
+        CilOpCodes.Callvirt,  // 6 - callvirt	instance Void Eziriz.VM/VMStack::AddVMLocal(class Eziriz.VM/VMObject)
         CilOpCodes.Ret        // 7 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Ldc_I4;
+    public CilOpCode CilOpCode => CilOpCodes.Ldc_I4;
 
     public bool Verify(EzirizHandler handler) => handler.Instructions[4].Operand is ITypeDefOrRef { FullName: "System.Int32" };
 }

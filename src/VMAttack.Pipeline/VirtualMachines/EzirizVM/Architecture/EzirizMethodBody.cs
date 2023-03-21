@@ -16,8 +16,7 @@ public class EzirizMethodBody
     public EzirizMethod Parent { get; }
 
     public List<EzirizException> ExceptionHandlers { get; }
-
     public List<EzirizInstruction> Instructions { get; }
-
     public List<EzirizVariable> Locals { get; }
+    public bool FullyIdentified => Instructions.TrueForAll(x => x.Opcode.IsIdentified);
 }

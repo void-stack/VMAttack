@@ -37,7 +37,7 @@ internal class PatternMatcher
     public void SetOpCodeValue(int value, EzirizOpcode opCode) => _opCodes[value] = opCode;
     public EzirizOpcode GetCreateOpCodeValue(int value) => _opCodes.TryGetValue(value, out var opc) ? opc : EzirizOpcode.DefaultNopOpCode;
 
-    public IOpCodePattern FindOpCode(EzirizOpcode vmOpCode, int index = 0)
+    public IOpCodePattern? FindOpCode(EzirizOpcode vmOpCode, int index = 0)
     {
         if (!vmOpCode.Handler.HasMethodBody) return null!;
 

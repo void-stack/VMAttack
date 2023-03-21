@@ -20,7 +20,7 @@ internal record MulVmTypePattern : IPattern
         CilOpCodes.Ldflda,    // 6 - ldflda valuetype Eziriz.VM/hSn0ucLlLMaeFvn5InR Eziriz.VM/VMIntegerType::d37Bh8uTDv
         CilOpCodes.Ldfld,     // 7 - ldfld int32 Eziriz.VM/hSn0ucLlLMaeFvn5InR::GLgBtRhyOg
         CilOpCodes.Mul,       // 8 - mul
-        CilOpCodes.Newobj,    // 9 - newobj instance void Eziriz.VM/VMIntegerType::.ctor(int32)
+        CilOpCodes.Newobj,    // 9 - newobj instance Void Eziriz.VM/VMIntegerType::.ctor(int32)
         CilOpCodes.Ret        // 10 - ret
     };
 
@@ -42,22 +42,22 @@ internal record Mul : IOpCodePattern
         CilOpCodes.Call,      // 9 - call	class Eziriz.VM/VMType Eziriz.VM/VMMethodExecutor::GetVMType(class Eziriz.VM/VMObject)
         CilOpCodes.Stloc_S,   // 10 - stloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 11 - ldloc.s	V_21 (21)
-        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
-        CilOpCodes.Newobj,    // 22 - newobj	instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Newobj,    // 22 - newobj	instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Throw,     // 23 - throw
         CilOpCodes.Ldloc_S,   // 13 - ldloc.s	V_27 (27)
-        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Ldarg_0,   // 15 - ldarg.0
         CilOpCodes.Ldfld,     // 16 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Ldloc_S,   // 17 - ldloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 18 - ldloc.s	V_27 (27)
         CilOpCodes.Callvirt,  // 19 - callvirt	instance class Eziriz.VM/VMObject Eziriz.VM/VMType::PZYuDsqDg5(class Eziriz.VM/VMObject)
-        CilOpCodes.Callvirt,  // 20 - callvirt	instance void Eziriz.VM/VMStack::MulVMLocals(class Eziriz.VM/VMObject)
+        CilOpCodes.Callvirt,  // 20 - callvirt	instance Void Eziriz.VM/VMStack::MulVMLocals(class Eziriz.VM/VMObject)
         CilOpCodes.Ret        // 21 - ret
 
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Mul;
+    public CilOpCode CilOpCode => CilOpCodes.Mul;
 
     public bool Verify(EzirizHandler handler)
     {
@@ -83,7 +83,7 @@ internal record AddVmTypePattern : IPattern
         CilOpCodes.Ldflda,    // 6 - ldflda valuetype Eziriz.VM/hSn0ucLlLMaeFvn5InR Eziriz.VM/VMIntegerType::d37Bh8uTDv
         CilOpCodes.Ldfld,     // 7 - ldfld int32 Eziriz.VM/hSn0ucLlLMaeFvn5InR::GLgBtRhyOg
         CilOpCodes.Add,       // 8 - Add
-        CilOpCodes.Newobj,    // 9 - newobj instance void Eziriz.VM/VMIntegerType::.ctor(int32)
+        CilOpCodes.Newobj,    // 9 - newobj instance Void Eziriz.VM/VMIntegerType::.ctor(int32)
         CilOpCodes.Ret        // 10 - ret
     };
 
@@ -105,21 +105,21 @@ internal record Add : IOpCodePattern
         CilOpCodes.Call,      // 9 - call	class Eziriz.VM/VMType Eziriz.VM/VMMethodExecutor::GetVMType(class Eziriz.VM/VMObject)
         CilOpCodes.Stloc_S,   // 10 - stloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 11 - ldloc.s	V_21 (21)
-        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
-        CilOpCodes.Newobj,    // 22 - newobj	instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Newobj,    // 22 - newobj	instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Throw,     // 23 - throw
         CilOpCodes.Ldloc_S,   // 13 - ldloc.s	V_27 (27)
-        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Ldarg_0,   // 15 - ldarg.0
         CilOpCodes.Ldfld,     // 16 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Ldloc_S,   // 17 - ldloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 18 - ldloc.s	V_27 (27)
         CilOpCodes.Callvirt,  // 19 - callvirt	instance class Eziriz.VM/VMObject Eziriz.VM/VMType::PZYuDsqDg5(class Eziriz.VM/VMObject)
-        CilOpCodes.Callvirt,  // 20 - callvirt	instance void Eziriz.VM/VMStack::AddVMLocals(class Eziriz.VM/VMObject)
+        CilOpCodes.Callvirt,  // 20 - callvirt	instance Void Eziriz.VM/VMStack::AddVMLocals(class Eziriz.VM/VMObject)
         CilOpCodes.Ret        // 21 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Add;
+    public CilOpCode CilOpCode => CilOpCodes.Add;
 
     public bool Verify(EzirizHandler handler)
     {
@@ -144,7 +144,7 @@ internal record SubVmTypePattern : IPattern
         CilOpCodes.Ldflda,    // 6 - ldflda valuetype Eziriz.VM/hSn0ucLlLMaeFvn5InR Eziriz.VM/VMIntegerType::d37Bh8uTDv
         CilOpCodes.Ldfld,     // 7 - ldfld int32 Eziriz.VM/hSn0ucLlLMaeFvn5InR::GLgBtRhyOg
         CilOpCodes.Sub,       // 8 - Sub
-        CilOpCodes.Newobj,    // 9 - newobj instance void Eziriz.VM/VMIntegerType::.ctor(int32)
+        CilOpCodes.Newobj,    // 9 - newobj instance Void Eziriz.VM/VMIntegerType::.ctor(int32)
         CilOpCodes.Ret        // 10 - ret
     };
 
@@ -167,21 +167,21 @@ internal record Sub : IOpCodePattern
         CilOpCodes.Call,      // 9 - call	class Eziriz.VM/VMType Eziriz.VM/VMMethodExecutor::GetVMType(class Eziriz.VM/VMObject)
         CilOpCodes.Stloc_S,   // 10 - stloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 11 - ldloc.s	V_21 (21)
-        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
-        CilOpCodes.Newobj,    // 22 - newobj	instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Newobj,    // 22 - newobj	instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Throw,     // 23 - throw
         CilOpCodes.Ldloc_S,   // 13 - ldloc.s	V_27 (27)
-        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Ldarg_0,   // 15 - ldarg.0
         CilOpCodes.Ldfld,     // 16 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Ldloc_S,   // 17 - ldloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 18 - ldloc.s	V_27 (27)
         CilOpCodes.Callvirt,  // 19 - callvirt	instance class Eziriz.VM/VMObject Eziriz.VM/VMType::PZYuDsqDg5(class Eziriz.VM/VMObject)
-        CilOpCodes.Callvirt,  // 20 - callvirt	instance void Eziriz.VM/VMStack::SubVMLocals(class Eziriz.VM/VMObject)
+        CilOpCodes.Callvirt,  // 20 - callvirt	instance Void Eziriz.VM/VMStack::SubVMLocals(class Eziriz.VM/VMObject)
         CilOpCodes.Ret        // 21 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Sub;
+    public CilOpCode CilOpCode => CilOpCodes.Sub;
 
     public bool Verify(EzirizHandler handler)
     {
@@ -206,7 +206,7 @@ internal record DivVmTypePattern : IPattern
         CilOpCodes.Ldflda,    // 6 - ldflda valuetype Eziriz.VM/hSn0ucLlLMaeFvn5InR Eziriz.VM/VMIntegerType::d37Bh8uTDv
         CilOpCodes.Ldfld,     // 7 - ldfld int32 Eziriz.VM/hSn0ucLlLMaeFvn5InR::GLgBtRhyOg
         CilOpCodes.Sub,       // 8 - Sub
-        CilOpCodes.Newobj,    // 9 - newobj instance void Eziriz.VM/VMIntegerType::.ctor(int32)
+        CilOpCodes.Newobj,    // 9 - newobj instance Void Eziriz.VM/VMIntegerType::.ctor(int32)
         CilOpCodes.Ret        // 10 - ret
     };
 
@@ -228,21 +228,21 @@ internal record Div : IOpCodePattern
         CilOpCodes.Call,      // 9 - call	class Eziriz.VM/VMType Eziriz.VM/VMMethodExecutor::GetVMType(class Eziriz.VM/VMObject)
         CilOpCodes.Stloc_S,   // 10 - stloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 11 - ldloc.s	V_21 (21)
-        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
-        CilOpCodes.Newobj,    // 22 - newobj	instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Newobj,    // 22 - newobj	instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Throw,     // 23 - throw
         CilOpCodes.Ldloc_S,   // 13 - ldloc.s	V_27 (27)
-        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Ldarg_0,   // 15 - ldarg.0
         CilOpCodes.Ldfld,     // 16 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Ldloc_S,   // 17 - ldloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 18 - ldloc.s	V_27 (27)
         CilOpCodes.Callvirt,  // 19 - callvirt	instance class Eziriz.VM/VMObject Eziriz.VM/VMType::PZYuDsqDg5(class Eziriz.VM/VMObject)
-        CilOpCodes.Callvirt,  // 20 - callvirt	instance void Eziriz.VM/VMStack::DivVMLocals(class Eziriz.VM/VMObject)
+        CilOpCodes.Callvirt,  // 20 - callvirt	instance Void Eziriz.VM/VMStack::DivVMLocals(class Eziriz.VM/VMObject)
         CilOpCodes.Ret        // 21 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Div;
+    public CilOpCode CilOpCode => CilOpCodes.Div;
 
     public bool Verify(EzirizHandler handler)
     {
@@ -267,7 +267,7 @@ internal record XorVmTypePattern : IPattern
         CilOpCodes.Ldflda,    // 6 - ldflda valuetype Eziriz.VM/hSn0ucLlLMaeFvn5InR Eziriz.VM/VMIntegerType::d37Bh8uTDv
         CilOpCodes.Ldfld,     // 7 - ldfld int32 Eziriz.VM/hSn0ucLlLMaeFvn5InR::GLgBtRhyOg
         CilOpCodes.Xor,       // 8 - Xor
-        CilOpCodes.Newobj,    // 9 - newobj instance void Eziriz.VM/VMIntegerType::.ctor(int32)
+        CilOpCodes.Newobj,    // 9 - newobj instance Void Eziriz.VM/VMIntegerType::.ctor(int32)
         CilOpCodes.Ret        // 10 - ret
     };
 
@@ -289,21 +289,21 @@ internal record Xor : IOpCodePattern
         CilOpCodes.Call,      // 9 - call	class Eziriz.VM/VMType Eziriz.VM/VMMethodExecutor::GetVMType(class Eziriz.VM/VMObject)
         CilOpCodes.Stloc_S,   // 10 - stloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 11 - ldloc.s	V_21 (21)
-        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
-        CilOpCodes.Newobj,    // 22 - newobj	instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 12 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Newobj,    // 22 - newobj	instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Throw,     // 23 - throw
         CilOpCodes.Ldloc_S,   // 13 - ldloc.s	V_27 (27)
-        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance void Eziriz.VM/VMException::.ctor()
+        CilOpCodes.Brfalse_S, // 14 - brfalse.s	2002 (1B61) newobj instance Void Eziriz.VM/VMException::.ctor()
         CilOpCodes.Ldarg_0,   // 15 - ldarg.0
         CilOpCodes.Ldfld,     // 16 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Ldloc_S,   // 17 - ldloc.s	V_21 (21)
         CilOpCodes.Ldloc_S,   // 18 - ldloc.s	V_27 (27)
         CilOpCodes.Callvirt,  // 19 - callvirt	instance class Eziriz.VM/VMObject Eziriz.VM/VMType::PZYuDsqDg5(class Eziriz.VM/VMObject)
-        CilOpCodes.Callvirt,  // 20 - callvirt	instance void Eziriz.VM/VMStack::XorVMLocals(class Eziriz.VM/VMObject)
+        CilOpCodes.Callvirt,  // 20 - callvirt	instance Void Eziriz.VM/VMStack::XorVMLocals(class Eziriz.VM/VMObject)
         CilOpCodes.Ret        // 21 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Xor;
+    public CilOpCode CilOpCode => CilOpCodes.Xor;
 
     public bool Verify(EzirizHandler handler)
     {

@@ -76,29 +76,13 @@ public class Context
         string directory = Path.Combine(targetDirectory!, $"{fileNameWithoutExtension}-modified");
 
         // Create the full path of the modified file
-        string newFilename = Path.Combine(directory, $"{fileNameWithoutExtension}.patched.exe");
+        string newFilename = Path.Combine(directory, $"{fileNameWithoutExtension}.devirt.exe");
 
         // If the directory does not exist, create it
         if (!Directory.Exists(directory))
             Directory.CreateDirectory(directory);
 
-        // Create an image builder
-        var imageBuilder = new ManagedPEImageBuilder
-        {
-            DotNetDirectoryFactory = new DotNetDirectoryFactory(MetadataBuilderFlags.PreserveAll)
-        };
-
-        // Use the image builder to create an image from the module
-        var result = imageBuilder.CreateImage(Module);
-
-        // Create a file builder
-        var fileBuilder = new ManagedPEFileBuilder();
-
-        // Use the file builder to create a file from the image
-        var file = fileBuilder.CreateFile(result.ConstructedImage!);
-
-        // Write the file to disk
-        file.Write(newFilename);
+        Module.Write(newFilename); 
 
         // Check if the file was written successfully
         if (File.Exists(newFilename))

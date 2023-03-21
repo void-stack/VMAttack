@@ -59,6 +59,10 @@ public class EzirizMethodReader : EzirizReaderBase
         // Reads the metadata token of the method and resolves its parent method.
         var metadataToken = new MetadataToken((uint) ReadEncryptedByte());
         var parentMethod = ((IMethodDescriptor) _context.Module.LookupMember(metadataToken)).Resolve();
+
+        if (parentMethod is null)
+            throw new Exception($"Could not resolve parent method for method with id {id}");
+
         Logger.Debug($"\tMethod parent is {parentMethod?.Name}");
 
         // Reads the count of locals, exception handlers, and instructions for the method.
@@ -67,7 +71,7 @@ public class EzirizMethodReader : EzirizReaderBase
         int instructionsCount = ReadEncryptedByte();
 
         // Creates a new EzirizMethod with the parent method, id, and methodOffset.
-        var method = new EzirizMethod(parentMethod, id, methodOffset);
+        var method = new EzirizMethod(parentMethod!, id, methodOffset);
 
         // Reads the variables, exception handlers, and instructions for the method.
         ReadVariables(method, localsCount);

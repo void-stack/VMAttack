@@ -5,7 +5,7 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
 
 public interface IOpCodePattern : IPattern
 {
-    CilOpCode? CilOpCode { get; }
+    CilOpCode CilOpCode { get; }
     SpecialOpCodes? SpecialOpCode => null;
 
     /// <summary>
@@ -19,6 +19,11 @@ public interface IOpCodePattern : IPattern
     bool AllowMultiple => false;
 
     /// <summary>
+    ///     Additional verification to ensure the match is valid.
+    /// </summary>
+    /// <param name="vmOpCode">VMOpCode the pattern is for</param>
+    /// <param name="index">Index of the pattern</param>
+    /// <returns>Whether verification is successful</returns>
     ///     Additional verification to ensure the match is valid.
     /// </summary>
     /// <param name="vmOpCode">VMOpCode the pattern is for</param>

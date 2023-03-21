@@ -20,6 +20,7 @@ public class EzirizInstruction
     }
 
     public EzirizOpcode Opcode { get; set; }
+    
     public ulong Offset { get; set; }
     public object? Operand { get; set; }
 

@@ -3,6 +3,7 @@ using AsmResolver.IO;
 using VMAttack.Core;
 using VMAttack.Core.Abstraction;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
+//using VMAttack.Pipeline.VirtualMachines.EzirizVM.Recompiler;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM;
 
@@ -14,6 +15,7 @@ public class EzirizAttack : VirtualMachineAttackBase
 {
     private readonly EzirizDisassembler _ezirizDisassembler;
     private readonly EzirizStreamReader _streamReader;
+    //private readonly EzirizMethodRecompiler _recompiler;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="EzirizAttack" /> class.
@@ -25,6 +27,7 @@ public class EzirizAttack : VirtualMachineAttackBase
         // Initializes a new instance of the CustomDataReader with a BinaryStreamReader and the provided context.
         _streamReader = new EzirizStreamReader(context, new BinaryStreamReader());
         _ezirizDisassembler = new EzirizDisassembler(context, _streamReader);
+        //_recompiler = new EzirizMethodRecompiler(context);
     }
 
     /// <summary>
@@ -40,6 +43,12 @@ public class EzirizAttack : VirtualMachineAttackBase
         foreach (var methodKey in _streamReader.MethodKeys)
         {
             var disassembledMethod = _ezirizDisassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
+
+            if (disassembledMethod.EzirizBody.FullyIdentified)
+            {
+                Logger.Info($"Method {disassembledMethod} is fully identified.");
+                //_recompiler.RecompileMethodBody(disassembledMethod);
+            }
         }
     }
 

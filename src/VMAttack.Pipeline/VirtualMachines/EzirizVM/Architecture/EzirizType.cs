@@ -23,5 +23,5 @@ public enum EzirizType : byte
     Char = 15,
     Enum = 16,
     Unknown = 17,
-    Null = 18
+    Void = 18
 }

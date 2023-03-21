@@ -13,11 +13,11 @@ internal record CallVirt : IOpCodePattern
     {
         CilOpCodes.Ldarg_0,  // 1 - ldarg.0
         CilOpCodes.Ldc_I4_0, // 2 - ldc.i4.0
-        CilOpCodes.Call,     // 3 - call	instance void Eziriz.VM/VMMethodExecutor::CallMethodFromOperand(bool) 
+        CilOpCodes.Call,     // 3 - call	instance Void Eziriz.VM/VMMethodExecutor::CallMethodFromOperand(bool) 
         CilOpCodes.Ret       // 4 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Callvirt;
+    public CilOpCode CilOpCode => CilOpCodes.Callvirt;
 
     public bool Verify(EzirizOpcode opcode) => true;
 }
@@ -32,11 +32,11 @@ internal record Call : IOpCodePattern
     {
         CilOpCodes.Ldarg_0,  // 1 - ldarg.0
         CilOpCodes.Ldc_I4_1, // 2 - ldc.i4.1
-        CilOpCodes.Call,     // 3 - call	instance void Eziriz.VM/VMMethodExecutor::CallMethodFromOperand(bool) 
+        CilOpCodes.Call,     // 3 - call	instance Void Eziriz.VM/VMMethodExecutor::CallMethodFromOperand(bool) 
         CilOpCodes.Ret       // 4 - ret
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Call;
+    public CilOpCode CilOpCode => CilOpCodes.Call;
 
     public bool Verify(EzirizOpcode opcode) => true;
 }
@@ -65,7 +65,7 @@ internal record Ret : IOpCodePattern
         CilOpCodes.Stfld     // 14 - stfld	class Eziriz.VM/VMObject Eziriz.VM/VMMethodExecutor::ReturnValue
     };
 
-    public CilOpCode? CilOpCode => CilOpCodes.Ret;
+    public CilOpCode CilOpCode => CilOpCodes.Ret;
 
     public bool Verify(EzirizOpcode opcode) => true;
 }

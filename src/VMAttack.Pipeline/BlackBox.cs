@@ -43,7 +43,7 @@ public class BlackBox
     public void Save()
     {
         // Write the module to disk
-        //Context.WriteModule();
+        Context.WriteModule();
     }
 
     /// <summary>
