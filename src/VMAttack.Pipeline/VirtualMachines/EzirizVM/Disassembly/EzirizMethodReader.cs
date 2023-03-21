@@ -52,6 +52,7 @@ public class EzirizMethodReader : EzirizReaderBase
     /// <returns>The created EzirizMethod.</returns>
     public EzirizMethod CreateMethod(uint id, ulong methodOffset)
     {
+        Console.Write('\n');
         Logger.Debug($"Reading method at offset {methodOffset:X4}");
         Reader.Offset = methodOffset;
 

@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.PatternMatching.OpCodes;
-
-[SuppressMessage("ReSharper", "ArrangeAccessorOwnerBody")]
 
 #region Return
 
@@ -27,7 +24,7 @@ internal record Ret : IOpCodePattern
         CilOpCodes.Ldarg_0,  // 11 - ldarg.0
         CilOpCodes.Ldfld,    // 12 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Callvirt, // 13 - callvirt	instance class Eziriz.VM/VMObject Eziriz.VM/VMStack::PopVMLocal()
-        CilOpCodes.Stfld,    // 14 - stfld	class Eziriz.VM/VMObject Eziriz.VM/VMMethodExecutor::ReturnValue
+        CilOpCodes.Stfld     // 14 - stfld	class Eziriz.VM/VMObject Eziriz.VM/VMMethodExecutor::ReturnValue
     };
 
     public CilOpCode? CilOpCode => CilOpCodes.Ret;

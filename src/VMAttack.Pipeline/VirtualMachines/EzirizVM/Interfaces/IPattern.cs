@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
@@ -38,6 +39,14 @@ public interface IPattern
     /// <param name="index">Index of the pattern</param>
     /// <returns>Whether verification is successful</returns>
     bool Verify(EzirizHandler handler, int index = 0) => Verify(handler.Instructions, index);
+
+    /// <summary>
+    ///     Additional verification to ensure the match is valid.
+    /// </summary>
+    /// <param name="method">Method to match Pattern against</param>
+    /// <param name="index">Index of the pattern</param>
+    /// <returns>Whether verification is successful</returns>
+    bool Verify(MethodDefinition method, int index = 0) => Verify(method.CilMethodBody!.Instructions, index);
 
     /// <summary>
     ///     Additional verification to ensure the match is valid.
