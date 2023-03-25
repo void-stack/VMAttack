@@ -152,7 +152,7 @@ internal record Ldlen : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0, 
         CilOpCodes.Ldfld,
         CilOpCodes.Callvirt,
         CilOpCodes.Ldnull,
@@ -169,6 +169,44 @@ internal record Ldlen : IOpCodePattern
         CilOpCodes.Ret
     };
     public CilOpCode CilOpCode => CilOpCodes.Ldlen;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
+
+
+#region Ceq
+
+internal record Ceq : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Call, 
+        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldfld, 
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Call,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Callvirt,
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Newobj,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Newobj, 
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Ret
+    };
+    public CilOpCode CilOpCode => CilOpCodes.Ceq;
     public bool Verify(EzirizOpcode opcode) => true;
 }
 
