@@ -132,3 +132,17 @@ internal record Ldstr : IOpCodePattern
 }
 
 #endregion
+
+#region Nop
+
+internal record Nop : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ret
+    };
+    public CilOpCode CilOpCode => CilOpCodes.Nop;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
