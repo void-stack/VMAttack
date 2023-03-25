@@ -63,7 +63,6 @@ internal record Newobj : IOpCodePattern
 
     public bool MatchEntireBody => false;
     public CilOpCode CilOpCode => CilOpCodes.Newobj;
-
     public bool Verify(EzirizOpcode opcode) => true;
 }
 

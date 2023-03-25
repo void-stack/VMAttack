@@ -21,13 +21,5 @@ public interface IOpCodePattern : IPattern
     /// <summary>
     ///     Additional verification to ensure the match is valid.
     /// </summary>
-    /// <param name="vmOpCode">VMOpCode the pattern is for</param>
-    /// <param name="index">Index of the pattern</param>
-    /// <returns>Whether verification is successful</returns>
-    ///     Additional verification to ensure the match is valid.
-    /// </summary>
-    /// <param name="vmOpCode">VMOpCode the pattern is for</param>
-    /// <param name="index">Index of the pattern</param>
-    /// <returns>Whether verification is successful</returns>
     bool Verify(EzirizOpcode vmOpCode) => Verify(vmOpCode.Handler);
 }

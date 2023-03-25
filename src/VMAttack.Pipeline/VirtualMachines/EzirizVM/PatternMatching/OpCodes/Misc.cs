@@ -18,7 +18,6 @@ internal record CallVirt : IOpCodePattern
     };
 
     public CilOpCode CilOpCode => CilOpCodes.Callvirt;
-
     public bool Verify(EzirizOpcode opcode) => true;
 }
 
@@ -66,8 +65,70 @@ internal record Ret : IOpCodePattern
     };
 
     public CilOpCode CilOpCode => CilOpCodes.Ret;
-
     public bool Verify(EzirizOpcode opcode) => true;
 }
 
 #endregion Return
+
+#region Pop
+
+internal record Pop : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,  // 0 - ldarg.0
+        CilOpCodes.Ldfld,    // 1 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
+        CilOpCodes.Callvirt, // 2 - callvirt	instance class Eziriz.VM/VMObject Eziriz.VM/VMStack::PopVMLocal()
+        CilOpCodes.Pop,      // 3 - pop
+        CilOpCodes.Ret       // 4 - ret
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Pop;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
+
+#region Ldstr
+
+internal record Ldstr : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldsfld,    // 0 - ldsfld	class [mscorlib]System.Collections.Generic.List`1<string> Eziriz.VM/VMMethodExecutor::Strings
+        CilOpCodes.Callvirt,  // 1 - callvirt	instance !0 class [mscorlib]System.Collections.Generic.List`1<string>::get_Item(int32)      
+        CilOpCodes.Brtrue_S,  // 2 - brtrue.s	379 (07C6) ldarg.0
+        CilOpCodes.Ldarg_0,   // 3 - ldarg.0
+        CilOpCodes.Ldfld,     // 4 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
+        CilOpCodes.Ldsfld,    // 5 - ldsfld	class [mscorlib]System.Collections.Generic.List`1<string> Eziriz.VM/VMMethodExecutor::Strings       
+        CilOpCodes.Ldarg_0,   // 6 - ldarg.0
+        CilOpCodes.Ldfld,     // 7 - ldfld	object Eziriz.VM/VMMethodExecutor::Operand           
+        CilOpCodes.Unbox_Any, // 8 - unbox.any	[mscorlib]System.Int32           
+        CilOpCodes.Callvirt,  // 9 - callvirt	instance !0 class [mscorlib]System.Collections.Generic.List`1<string>::get_Item(int32)            
+        CilOpCodes.Newobj,    // 10 - newobj	instance void Eziriz.VM/VMObject::.ctor(object)           
+        CilOpCodes.Callvirt,  // 11 - callvirt	instance void Eziriz.VM/VMStack::Push(class Eziriz.VM/VMObject)            
+        CilOpCodes.Ret,       // 12 - ret          
+        CilOpCodes.Ldtoken,   // 13 - ldtoken	EzirizVM          
+        CilOpCodes.Call,      // 14 - call	class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)             
+        CilOpCodes.Callvirt,  // 15 - callvirt	instance class [mscorlib]System.Reflection.Module [mscorlib]System.Type::get_Module()             
+        CilOpCodes.Stloc_S,   // 16 - stloc.s	V_15 (15)          
+        CilOpCodes.Ldarg_0,   // 17 - ldarg.0         
+        CilOpCodes.Ldfld,     // 18 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack            
+        CilOpCodes.Ldloc_S,   // 19 - ldloc.s	V_15 (15)         
+        CilOpCodes.Ldarg_0,   // 20 - ldarg.0         
+        CilOpCodes.Ldfld,     // 21 - ldfld	object Eziriz.VM/VMMethodExecutor::Operand            
+        CilOpCodes.Unbox_Any, // 22 - unbox.any	[mscorlib]System.Int32           
+        CilOpCodes.Ldc_I4,    // 23 - ldc.i4	0x70000000          
+        CilOpCodes.Or,        // 24 - or           
+        CilOpCodes.Callvirt,  // 25 - callvirt	instance string [mscorlib]System.Reflection.Module::ResolveString(int32)             
+        CilOpCodes.Newobj,    // 26 - newobj	instance void Eziriz.VM/VMObject::.ctor(object)           
+        CilOpCodes.Callvirt,  // 27 - callvirt	instance void Eziriz.VM/VMStack::Push(class Eziriz.VM/VMObject)             
+        CilOpCodes.Ret        // 28 - ret
+
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Ldstr;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion

@@ -29,11 +29,15 @@ public class EzirizDisassembler : ContextBase
     public EzirizDisassembler(Context context, EzirizStreamReader ezirizStreamReader)
         : base(context, context.Logger)
     {
-        if (!ezirizStreamReader.ManifestResource.TryGetReader(out var reader))
+        EzirizStreamReader = ezirizStreamReader;
+
+        if (!EzirizStreamReader.ManifestResource.TryGetReader(out var reader))
             throw new DevirtualizationException("Cannot create reader for disassembler!");
 
-        _ezirizMethodReader = new EzirizMethodReader(context, reader, ezirizStreamReader);
+        _ezirizMethodReader = new EzirizMethodReader(context, reader, EzirizStreamReader);
     }
+
+    public EzirizStreamReader EzirizStreamReader { get; }
 
     /// <summary>
     ///     Gets an enumeration of all the opcodes that have been used in the disassembled methods.
