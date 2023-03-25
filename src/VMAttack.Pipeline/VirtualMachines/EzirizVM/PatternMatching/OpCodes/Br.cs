@@ -28,3 +28,43 @@ internal record Br : IOpCodePattern
 }
 
 #endregion
+
+#region Brfalse
+internal record Brfalse : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldc_I4_0, 
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld, 
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Stloc_S, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Brtrue_S,
+        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Ceq, 
+        CilOpCodes.Stloc_S, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Brfalse_S, 
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Br_S
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Brfalse;
+
+    public bool Verify(EzirizHandler handler) => true;
+}
+
+#endregion
