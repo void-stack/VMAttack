@@ -18,7 +18,7 @@ public readonly struct EzirizHandler
     public override string ToString()
     {
         return Instructions.Count > 0
-            ? $"{string.Join(", ", Instructions.Select(x => $"CilCode.{x.OpCode.Code}"))}"
+            ? "public IList<CilOpCode> Pattern => new List<CilOpCode> {" + $" {string.Join(", ", Instructions.Select(x => $"CilOpCodes.{x.OpCode.Code}"))}" + "};"
             : "None";
     }
 }

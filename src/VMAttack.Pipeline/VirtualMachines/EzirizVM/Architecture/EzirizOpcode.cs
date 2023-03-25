@@ -13,6 +13,5 @@ public record EzirizOpcode(EzirizHandler Handler)
     public int? VirtualCode { get; set; } = null!;
 
     public CilOpCode CilOpCode { get; set; } = CilOpCodes.Nop;
-
     public override string ToString() => $"CilOpCode: {CilOpCode} ({VirtualCode})";
 }
