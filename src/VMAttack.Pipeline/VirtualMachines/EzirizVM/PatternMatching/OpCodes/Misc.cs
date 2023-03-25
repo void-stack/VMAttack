@@ -146,3 +146,30 @@ internal record Nop : IOpCodePattern
 }
 
 #endregion
+
+#region Ldlen
+internal record Ldlen : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldnull,
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Castclass, 
+        CilOpCodes.Stloc_3, 
+        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldloc_3, 
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Ldc_I4_5, 
+        CilOpCodes.Newobj, 
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Ret
+    };
+    public CilOpCode CilOpCode => CilOpCodes.Ldlen;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
