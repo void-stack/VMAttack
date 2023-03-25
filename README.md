@@ -11,7 +11,7 @@
 
 <img src="assets/Logo.png">
 
-# VMAttack - Research Tool
+# VMAttack - Devirtualization Research Tool
 
 VMAttack is a **work-in-progress** project focused on **.NET Virtual machines**. 
 It's currently exploring the **virtualization techniques**.
