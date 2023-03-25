@@ -2,7 +2,6 @@
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
-using VMAttack.Pipeline.VirtualMachines.EzirizVM.Disassembly;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
 
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.PatternMatching.OpCodes;

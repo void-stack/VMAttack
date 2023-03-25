@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
@@ -13,32 +12,32 @@ internal record LdelemRef : IOpCodePattern
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
         CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldfld,
         CilOpCodes.Callvirt,
         CilOpCodes.Call,
         CilOpCodes.Stloc_S,
         CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
-        CilOpCodes.Callvirt,    
+        CilOpCodes.Callvirt,
         CilOpCodes.Ldnull,
-        CilOpCodes.Callvirt, 
-        CilOpCodes.Castclass, 
-        CilOpCodes.Dup, 
+        CilOpCodes.Callvirt,
+        CilOpCodes.Castclass,
+        CilOpCodes.Dup,
         CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Ldflda,
-        CilOpCodes.Ldfld, 
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
         CilOpCodes.Stloc_S,
         CilOpCodes.Callvirt,
-        CilOpCodes.Callvirt, 
-        CilOpCodes.Stloc_S, 
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
         CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld, 
-        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Ldfld,
         CilOpCodes.Ldloc_S,
-        CilOpCodes.Call, 
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Call,
+        CilOpCodes.Callvirt,
         CilOpCodes.Ret
     };
 

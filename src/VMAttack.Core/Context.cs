@@ -81,7 +81,7 @@ public class Context
         if (!Directory.Exists(directory))
             Directory.CreateDirectory(directory);
 
-        Module.Write(newFilename, new ManagedPEImageBuilder(new DotNetDirectoryFactory( MetadataBuilderFlags.PreserveMethodDefinitionIndices)));
+        Module.Write(newFilename, new ManagedPEImageBuilder(new DotNetDirectoryFactory(MetadataBuilderFlags.PreserveMethodDefinitionIndices)));
 
         // Check if the file was written successfully
         if (File.Exists(newFilename))

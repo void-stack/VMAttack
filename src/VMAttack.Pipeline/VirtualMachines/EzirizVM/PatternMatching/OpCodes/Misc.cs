@@ -141,6 +141,7 @@ internal record Nop : IOpCodePattern
     {
         CilOpCodes.Ret
     };
+
     public CilOpCode CilOpCode => CilOpCodes.Nop;
     public bool Verify(EzirizOpcode opcode) => true;
 }
@@ -148,32 +149,33 @@ internal record Nop : IOpCodePattern
 #endregion
 
 #region Ldlen
+
 internal record Ldlen : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
         CilOpCodes.Callvirt,
         CilOpCodes.Ldnull,
-        CilOpCodes.Callvirt, 
-        CilOpCodes.Castclass, 
-        CilOpCodes.Stloc_3, 
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldfld, 
-        CilOpCodes.Ldloc_3, 
-        CilOpCodes.Callvirt, 
-        CilOpCodes.Ldc_I4_5, 
-        CilOpCodes.Newobj, 
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Callvirt,
+        CilOpCodes.Castclass,
+        CilOpCodes.Stloc_3,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldloc_3,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldc_I4_5,
+        CilOpCodes.Newobj,
+        CilOpCodes.Callvirt,
         CilOpCodes.Ret
     };
+
     public CilOpCode CilOpCode => CilOpCodes.Ldlen;
     public bool Verify(EzirizOpcode opcode) => true;
 }
 
 #endregion
-
 
 #region Ceq
 
@@ -183,18 +185,18 @@ internal record Ceq : IOpCodePattern
     {
         CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
-        CilOpCodes.Callvirt, 
-        CilOpCodes.Call, 
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldfld, 
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
         CilOpCodes.Call,
         CilOpCodes.Stloc_S,
-        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Brfalse_S,
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
         CilOpCodes.Ldc_I4_0,
         CilOpCodes.Newobj,
         CilOpCodes.Callvirt,
@@ -202,10 +204,11 @@ internal record Ceq : IOpCodePattern
         CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
         CilOpCodes.Ldc_I4_1,
-        CilOpCodes.Newobj, 
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Newobj,
+        CilOpCodes.Callvirt,
         CilOpCodes.Ret
     };
+
     public CilOpCode CilOpCode => CilOpCodes.Ceq;
     public bool Verify(EzirizOpcode opcode) => true;
 }

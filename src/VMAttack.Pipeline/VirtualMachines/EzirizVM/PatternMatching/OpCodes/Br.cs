@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
@@ -30,28 +29,29 @@ internal record Br : IOpCodePattern
 #endregion
 
 #region Brfalse
+
 internal record Brfalse : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldc_I4_0, 
+        CilOpCodes.Ldc_I4_0,
         CilOpCodes.Stloc_S,
         CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld, 
-        CilOpCodes.Callvirt, 
-        CilOpCodes.Stloc_S, 
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
         CilOpCodes.Ldloc_S,
         CilOpCodes.Brtrue_S,
-        CilOpCodes.Ldloc_S, 
-        CilOpCodes.Callvirt, 
-        CilOpCodes.Ldc_I4_0,
-        CilOpCodes.Ceq, 
-        CilOpCodes.Stloc_S, 
         CilOpCodes.Ldloc_S,
-        CilOpCodes.Brfalse_S, 
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Ceq,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Brfalse_S,
         CilOpCodes.Ret,
         CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
         CilOpCodes.Unbox_Any,
         CilOpCodes.Ldc_I4_1,
