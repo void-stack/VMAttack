@@ -23,7 +23,7 @@ public class EzirizAttack : VirtualMachineAttackBase
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="EzirizAttack" /> class.
-    /// </summary>
+    /// </summary>  
     /// <param name="context">The context for the attack.</param>
     public EzirizAttack(Context context)
         : base(context)

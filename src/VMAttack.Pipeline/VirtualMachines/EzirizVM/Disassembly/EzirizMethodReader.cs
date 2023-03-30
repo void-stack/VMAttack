@@ -124,7 +124,7 @@ public class EzirizMethodReader : EzirizReaderBase
             method.EzirizBody.Instructions.Add(instr);
 
             Logger.Debug($"\t{instr}");
-            //Logger.Debug($"\t\tHandler: {instr.Opcode.Handler}");
+            Logger.Debug($"\t\tHandler: {instr.Opcode.Handler}");
         }
     }
 
