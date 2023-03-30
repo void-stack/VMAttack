@@ -109,9 +109,9 @@ public class HandlerMapper : ContextBase
 
     private void AddHandler(int opcode, IList<CilInstruction> instructions)
     {
-        Logger.Debug(_handlers.TryAdd(opcode, new EzirizHandler(instructions))
-            ? $"Added handler for opcode {opcode}"
-            : $"Failed to add handler for opcode {opcode}");
+        if (!_handlers.TryAdd(opcode, new EzirizHandler(instructions)))
+            Logger.Error($"Could not add handler! ({opcode})");
+
     }
 
     /// <summary>

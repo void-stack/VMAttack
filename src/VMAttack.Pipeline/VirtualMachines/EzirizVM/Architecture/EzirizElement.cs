@@ -3,7 +3,7 @@
 namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 [Flags]
-public enum EzirizType : byte
+public enum EzirizElement : byte
 {
     Object = 0,
     SByte = 1,

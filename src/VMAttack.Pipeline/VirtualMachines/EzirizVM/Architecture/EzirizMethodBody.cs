@@ -4,19 +4,20 @@ namespace VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 
 public class EzirizMethodBody
 {
-    public EzirizMethodBody(EzirizMethod parent)
+    public EzirizMethodBody(EzirizMethod virtualParent)
     {
-        Parent = parent;
+        VirtualParent = virtualParent;
 
-        Locals = new List<EzirizVariable>();
+        Variables = new List<EzirizVariable>();
         Instructions = new List<EzirizInstruction>();
         ExceptionHandlers = new List<EzirizException>();
     }
 
-    public EzirizMethod Parent { get; }
+    public EzirizMethod VirtualParent { get; }
 
     public List<EzirizException> ExceptionHandlers { get; }
     public List<EzirizInstruction> Instructions { get; }
-    public List<EzirizVariable> Locals { get; }
+    public List<EzirizVariable> Variables { get; }
     public bool FullyIdentified => Instructions.TrueForAll(x => x.Opcode.IsIdentified);
+    public bool Decompiled { get; set; } = false;
 }

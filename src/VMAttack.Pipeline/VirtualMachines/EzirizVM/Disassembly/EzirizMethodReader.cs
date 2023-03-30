@@ -52,7 +52,6 @@ public class EzirizMethodReader : EzirizReaderBase
     /// <returns>The created EzirizMethod.</returns>
     public EzirizMethod CreateMethod(uint id, ulong methodOffset)
     {
-        Console.Write('\n');
         Logger.Debug($"Reading method at offset {methodOffset:X4}");
         Reader.Offset = methodOffset;
 
@@ -89,7 +88,6 @@ public class EzirizMethodReader : EzirizReaderBase
     /// <param name="count">The count of instructions to be read.</param>
     private void ReadInstructions(EzirizMethod method, int count)
     {
-        // TODO: MAKE THIS INTO SEPARATE CLASS
         Logger.Info($"Reading {count} instructions...");
 
         for (int i = 0; i < count; i++)
@@ -140,18 +138,18 @@ public class EzirizMethodReader : EzirizReaderBase
 
             if (encryptedType is >= 0 and < 50)
             {
-                var type = (EzirizType) encryptedType & (EzirizType) 31;
+                var type = (EzirizElement) encryptedType & (EzirizElement) 31;
                 bool isByRef = (encryptedType & 32) > 0;
 
-                method.EzirizBody.Locals.Add(new EzirizVariable(index, type, isByRef));
+                method.EzirizBody.Variables.Add(new EzirizVariable(index, type, isByRef));
             }
             else
             {
-                Logger.Warn("Adding unknown local type!");
-                method.EzirizBody.Locals.Add(new EzirizVariable(index, EzirizType.Object, false));
+                Logger.Warn("Adding unknown local element!");
+                method.EzirizBody.Variables.Add(new EzirizVariable(index, EzirizElement.Object, false));
             }
 
-            Logger.Debug($"\t{method.EzirizBody.Locals[(int) index]}");
+            Logger.Debug($"\t{method.EzirizBody.Variables[(int) index]}");
         }
     }
 
@@ -165,13 +163,13 @@ public class EzirizMethodReader : EzirizReaderBase
         for (int i = 0; i < count; i++)
             exceptions.Add(reader.ReadEh());
 
-        if (exceptions.Count <= 0)
-            return;
+        if (exceptions.Count > 0)
+        {
+            Logger.Debug("Sorting exception handlers...");
+            exceptions.Sort((x, y) => x.TryStart.CompareTo(y.TryStart));
 
-        Logger.Debug("Sorting exception handlers...");
-        exceptions.Sort((x, y) => x.TryStart.CompareTo(y.TryStart));
-
-        foreach (var exception in exceptions)
-            Logger.Debug(exception.ToString());
+            foreach (var exception in exceptions)
+                Logger.Debug(exception.ToString());
+        }
     }
 }

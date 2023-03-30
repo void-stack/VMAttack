@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VMAttack.Core;
 using VMAttack.Core.Abstraction;
@@ -62,6 +63,7 @@ public class EzirizDisassembler : ContextBase
     {
         if (!_disassembledMethods.TryGetValue(id, out var method))
         {
+            Console.Write('\n');
             Logger.Info($"Created new method_{id:X4}, reading from offset {methodOffset:X8}.");
             var disassembled = _ezirizMethodReader.CreateMethod(id, methodOffset);
             InsertMethod(id, disassembled);

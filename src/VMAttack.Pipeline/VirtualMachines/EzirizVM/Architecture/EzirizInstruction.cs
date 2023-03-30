@@ -23,6 +23,7 @@ public class EzirizInstruction
 
     public ulong Offset { get; set; }
     public object? Operand { get; set; }
+    public bool IsIdentified => Opcode.IsIdentified;
 
     public override string ToString()
     {

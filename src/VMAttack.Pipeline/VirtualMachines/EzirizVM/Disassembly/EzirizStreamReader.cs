@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using AsmResolver.DotNet;
 using AsmResolver.IO;
@@ -111,16 +112,45 @@ public class EzirizStreamReader : EzirizReaderBase
         var resources = Context.Module.Resources;
         manifestResource = null!;
 
-        foreach (var resource in resources)
+        var r = new Dictionary<int, ManifestResource>();
+
+        for (int i = 0; i < resources.Count; i++)
         {
+            var resource = resources[i];
+
             if (resource.Name is null)
                 continue;
 
+            r.Add(i, resource);
+
             if (resource.Name.Length != 37)
                 continue;
+        }
 
-            manifestResource = resource;
-            return true;
+        // Change this
+        if (r.Count > 1)
+        {
+            Logger.Warn("Multiple resources found, please select one (37 characters by default)");
+
+            foreach (var resource in r)
+                Logger.Info($"[{resource.Key}] {resource.Value.Name} ({resource.Value.Name!.Length} characters)");
+
+            if (int.TryParse(Console.ReadLine(), out int index))
+            {
+                // check if index is valid
+                if (index < 0 || index > r.Count)
+                {
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+
+                manifestResource = r[index];
+                return true;
+            }
+
+            Logger.Error("Invalid index!");
+            Console.ReadKey();
+            Environment.Exit(0);
         }
 
         return false;

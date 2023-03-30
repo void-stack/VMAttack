@@ -41,25 +41,25 @@ public class EzirizExceptionReader : EzirizReaderBase
             EhType = (EzirizEhType) ReadEncryptedByte()
         };
 
-        // Depending on the exception handling type, read additional information.
+        // Depending on the exception handling element, read additional information.
         switch (exception.EhType)
         {
             case EzirizEhType.Catch:
-                // If the exception handling type is Catch, lookup the member and set the CatchType property.
+                // If the exception handling element is Catch, lookup the member and set the CatchType property.
                 exception.CatchType = (ITypeDescriptor) module.LookupMember(ReadEncryptedByte());
                 break;
             case EzirizEhType.Filter:
-                // If the exception handling type is Filter, set the Filter property.
+                // If the exception handling element is Filter, set the Filter property.
                 exception.Filter = ReadEncryptedByte();
                 break;
             case EzirizEhType.Finally:
-                // If the exception handling type is Finally, do nothing.
+                // If the exception handling element is Finally, do nothing.
                 break;
             case EzirizEhType.Fault:
-                // If the exception handling type is Fault, do nothing.
+                // If the exception handling element is Fault, do nothing.
                 break;
             default:
-                // If the exception handling type is unknown, read an encrypted byte and discard it.
+                // If the exception handling element is unknown, read an encrypted byte and discard it.
                 ReadEncryptedByte();
                 break;
         }
