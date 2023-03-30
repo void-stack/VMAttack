@@ -12,15 +12,15 @@ internal record Newobj : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldfld,  // 0
+        CilOpCodes.Ldfld,     // 0
         CilOpCodes.Unbox_Any, // 1
-        CilOpCodes.Stloc_S, // 2
-        CilOpCodes.Ldtoken, // 3
-        CilOpCodes.Call, // 4
-        CilOpCodes.Callvirt, // 5
-        CilOpCodes.Ldloc_S, // 6
-        CilOpCodes.Callvirt, //7
-        CilOpCodes.Castclass, //8
+        CilOpCodes.Stloc_S,   // 2
+        CilOpCodes.Ldtoken,   // 3
+        CilOpCodes.Call,      // 4
+        CilOpCodes.Callvirt,  // 5
+        CilOpCodes.Ldloc_S,   // 6
+        CilOpCodes.Callvirt,  //7
+        CilOpCodes.Castclass  //8
     };
 
     public bool MatchEntireBody => false;

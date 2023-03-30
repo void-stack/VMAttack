@@ -16,7 +16,7 @@ public class Options
     [MinLength(1)]
     [MaxLength(255)]
     public string InputFile { get; set; } =
-        @"C:\Users\User\Downloads\VMTest\OpCodeTestApp_Secure\OpCodeTestApp_Secure\test.exe"; //null!;
+        @"C:\Users\User\Downloads\VMTest\OpCodeTestApp_Secure\op.exe"; //null!;
 
     /// <summary>
     ///     Gets or sets the path to the output file.

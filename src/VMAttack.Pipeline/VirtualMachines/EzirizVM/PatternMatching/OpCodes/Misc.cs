@@ -160,10 +160,10 @@ internal record Ldlen : IOpCodePattern
         CilOpCodes.Ldnull,
         CilOpCodes.Callvirt,
         CilOpCodes.Castclass,
-        CilOpCodes.Stloc_3,
+        CilOpCodes.Stloc_S,
         CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
-        CilOpCodes.Ldloc_3,
+        CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Ldc_I4_5,
         CilOpCodes.Newobj,
@@ -172,6 +172,26 @@ internal record Ldlen : IOpCodePattern
     };
 
     public CilOpCode CilOpCode => CilOpCodes.Ldlen;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
+
+#region Ldnull
+
+internal record Ldnull : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldnull,
+        CilOpCodes.Newobj,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ret
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Ldnull;
     public bool Verify(EzirizOpcode opcode) => true;
 }
 
@@ -210,6 +230,46 @@ internal record Ceq : IOpCodePattern
     };
 
     public CilOpCode CilOpCode => CilOpCodes.Ceq;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
+
+#region Newarr
+
+internal record Newarr : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldtoken,
+        CilOpCodes.Call,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldflda,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Call,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Newobj,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ret
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Newarr;
     public bool Verify(EzirizOpcode opcode) => true;
 }
 
