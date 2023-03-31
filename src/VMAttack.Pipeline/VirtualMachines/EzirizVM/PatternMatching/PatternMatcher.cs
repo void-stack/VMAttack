@@ -91,6 +91,7 @@ internal class PatternMatcher
     private static bool CanInterchange(IPattern pat, CilInstruction ins, CilOpCode patOpCode)
     {
         var patIns = new CilInstruction(patOpCode);
+
         if (ins.IsLdcI4())
             return pat.InterchangeLdcI4OpCodes && patIns.IsLdcI4();
 
@@ -99,6 +100,9 @@ internal class PatternMatcher
 
         if (ins.IsStloc())
             return pat.InterchangeStlocOpCodes && patIns.IsStloc();
+
+        if (ins.IsBranch())
+            return pat.InterchangeBranchesOpCodes && patIns.IsBranch();
 
         return false;
     }

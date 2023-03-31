@@ -27,6 +27,11 @@ public interface IPattern
     bool InterchangeStlocOpCodes => false;
 
     /// <summary>
+    ///     Whether this pattern allows to interchange Branch OpCodes like Br and Br.s
+    /// </summary>
+    bool InterchangeBranchesOpCodes => false;
+
+    /// <summary>
     ///     Whether the body should only be the pattern.
     /// </summary>
     bool MatchEntireBody => true;

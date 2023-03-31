@@ -122,9 +122,11 @@ public class EzirizMethodReader : EzirizReaderBase
                 };
 
             method.EzirizBody.Instructions.Add(instr);
-
             Logger.Debug($"\t{instr}");
-            Logger.Debug($"\t\tHandler: {instr.Opcode.Handler}");
+            if (method.PhysicalParent.Name == "cgt_un")
+            {
+                Logger.Debug($"\t\tHandler: {instr.Opcode.Handler}");
+            }
         }
     }
 

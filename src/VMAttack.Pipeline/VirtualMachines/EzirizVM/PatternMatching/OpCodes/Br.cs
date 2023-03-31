@@ -75,21 +75,21 @@ internal record Brtrue : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
         CilOpCodes.Callvirt,
-        CilOpCodes.Stloc_S, 
-        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S,
         CilOpCodes.Brfalse_S,
-        CilOpCodes.Ret, 
+        CilOpCodes.Ret,
         CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Brfalse_S,
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldarg_0, 
-        CilOpCodes.Ldfld, 
-        CilOpCodes.Unbox_Any, 
-        CilOpCodes.Ldc_I4_1, 
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
         CilOpCodes.Sub,
         CilOpCodes.Stfld
     };

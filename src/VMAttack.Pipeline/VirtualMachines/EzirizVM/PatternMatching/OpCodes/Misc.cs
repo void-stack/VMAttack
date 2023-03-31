@@ -97,7 +97,7 @@ internal record Ldstr : IOpCodePattern
     {
         CilOpCodes.Ldsfld, // 0 - ldsfld	class [mscorlib]System.Collections.Generic.List`1<string> Eziriz.VM/VMMethodExecutor::Strings
         CilOpCodes.Callvirt, // 1 - callvirt	instance !0 class [mscorlib]System.Collections.Generic.List`1<string>::get_Item(int32)      
-        CilOpCodes.Brtrue_S, // 2 - brtrue.s	379 (07C6) ldarg.0
+        CilOpCodes.Brtrue, // 2 - brtrue.s	379 (07C6) ldarg.0
         CilOpCodes.Ldarg_0, // 3 - ldarg.0
         CilOpCodes.Ldfld, // 4 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
         CilOpCodes.Ldsfld, // 5 - ldsfld	class [mscorlib]System.Collections.Generic.List`1<string> Eziriz.VM/VMMethodExecutor::Strings       
@@ -124,8 +124,12 @@ internal record Ldstr : IOpCodePattern
         CilOpCodes.Newobj, // 26 - newobj	instance void Eziriz.VM/VMObject::.ctor(object)           
         CilOpCodes.Callvirt, // 27 - callvirt	instance void Eziriz.VM/VMStack::Push(class Eziriz.VM/VMObject)             
         CilOpCodes.Ret // 28 - ret
-
     };
+
+
+    public bool InterchangeBranchesOpCodes => true;
+    public bool InterchangeStlocOpCodes => true;
+    public bool InterchangeLdlocOpCodes => true;
 
     public CilOpCode CilOpCode => CilOpCodes.Ldstr;
     public bool Verify(EzirizOpcode opcode) => true;
@@ -192,44 +196,6 @@ internal record Ldnull : IOpCodePattern
     };
 
     public CilOpCode CilOpCode => CilOpCodes.Ldnull;
-    public bool Verify(EzirizOpcode opcode) => true;
-}
-
-#endregion
-
-#region Ceq
-
-internal record Ceq : IOpCodePattern
-{
-    public IList<CilOpCode> Pattern => new List<CilOpCode>
-    {
-        CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld,
-        CilOpCodes.Callvirt,
-        CilOpCodes.Call,
-        CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld,
-        CilOpCodes.Callvirt,
-        CilOpCodes.Call,
-        CilOpCodes.Stloc_S,
-        CilOpCodes.Ldloc_S,
-        CilOpCodes.Callvirt,
-        CilOpCodes.Brfalse_S,
-        CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld,
-        CilOpCodes.Ldc_I4_0,
-        CilOpCodes.Newobj,
-        CilOpCodes.Callvirt,
-        CilOpCodes.Ret,
-        CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld,
-        CilOpCodes.Ldc_I4_1,
-        CilOpCodes.Newobj,
-        CilOpCodes.Callvirt,
-        CilOpCodes.Ret
-    };
-
-    public CilOpCode CilOpCode => CilOpCodes.Ceq;
     public bool Verify(EzirizOpcode opcode) => true;
 }
 
