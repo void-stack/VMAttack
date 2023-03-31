@@ -175,6 +175,11 @@ internal record Ldlen : IOpCodePattern
         CilOpCodes.Ret
     };
 
+    public bool InterchangeLdcI4OpCodes => true;
+    public bool InterchangeLdlocOpCodes => true;
+    public bool InterchangeStlocOpCodes => true;
+    public bool InterchangeBranchesOpCodes => true;
+    
     public CilOpCode CilOpCode => CilOpCodes.Ldlen;
     public bool Verify(EzirizOpcode opcode) => true;
 }
