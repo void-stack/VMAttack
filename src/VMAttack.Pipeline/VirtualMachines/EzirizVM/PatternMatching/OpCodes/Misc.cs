@@ -328,3 +328,24 @@ internal record UnboxAny : IOpCodePattern
 }
 
 #endregion
+
+#region Throw
+
+internal record Throw : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldnull,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Castclass,
+        CilOpCodes.Throw
+    };
+    
+    public CilOpCode CilOpCode => CilOpCodes.Throw;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
