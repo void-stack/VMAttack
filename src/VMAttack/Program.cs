@@ -24,7 +24,7 @@ public static class Program
         catch (Exception ex) when (!Debugger.IsAttached)
         {
             logger.Error("An error occurred, maybe try newest version?");
-            logger.Error(ex.ToString());
+            logger.Error(ex.Message);
         }
         finally
         {

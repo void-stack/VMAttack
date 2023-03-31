@@ -35,9 +35,9 @@ public class Options
     [Required]
     [Display(Name = "Select your Virtual Machine Type", Description = "Select your Virtual Machine Type")]
     public VirtualMachineType VirtualMachine { get; set; } = VirtualMachineType.Eziriz;
-    
+
     /// <summary>
-    ///  Gets or sets the value if not completed virtualized bodies should be written to disk.
+    ///     Gets or sets the value if not completed virtualized bodies should be written to disk.
     /// </summary>
     [Required]
     [Display(Name = "Write not completed virtualized bodies to disk", Description = "Write not completed virtualized bodies to disk")]

@@ -110,7 +110,7 @@ internal record Ldloca : IOpCodePattern
 
                 if (ctorDeclaringType == null)
                     return false;
-            
+
                 // check if class has a method named "nOQdl4ODOg" overwrite by the VM
                 var method = ctorDeclaringType.Methods.FirstOrDefault(x => x.Name == "nOQdl4ODOg");
 
@@ -121,7 +121,7 @@ internal record Ldloca : IOpCodePattern
         }
 
         return false;
-    } 
+    }
 }
 
 #endregion

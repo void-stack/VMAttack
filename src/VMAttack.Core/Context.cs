@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Linq.Expressions;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Builder;
 using AsmResolver.DotNet.Code.Cil;
@@ -93,10 +92,10 @@ public class Context
                     MethodBodySerializer = new CilMethodBodySerializer
                     {
                         ComputeMaxStackOnBuildOverride = false,
-                        VerifyLabelsOnBuildOverride = false,
+                        VerifyLabelsOnBuildOverride = false
                     }
                 };
-            
+
             Module.Write(newFilename, new ManagedPEImageBuilder(dnFactory));
         }
         else

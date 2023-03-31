@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Serialized;
@@ -65,7 +64,7 @@ internal record Ldarga : IOpCodePattern
 
                 if (ctorDeclaringType == null)
                     return false;
-            
+
                 // check if class has a method named "nOQdl4ODOg" overwrite by the VM
                 var method = ctorDeclaringType.Methods.FirstOrDefault(x => x.Name == "nOQdl4ODOg");
 
@@ -76,7 +75,7 @@ internal record Ldarga : IOpCodePattern
         }
 
         return false;
-    } 
+    }
 }
 
 #endregion
