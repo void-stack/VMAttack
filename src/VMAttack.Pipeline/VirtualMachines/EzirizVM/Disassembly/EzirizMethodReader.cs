@@ -125,7 +125,7 @@ public class EzirizMethodReader : EzirizReaderBase
             Logger.Debug($"\t{instr}");
             //if (method.PhysicalParent.Name == "unbox_any")
             //{
-                Logger.Debug($"\t\tHandler: {instr.Opcode.Handler}");
+            Logger.Debug($"\t\tHandler: {instr.Opcode.Handler}");
             //}
         }
     }

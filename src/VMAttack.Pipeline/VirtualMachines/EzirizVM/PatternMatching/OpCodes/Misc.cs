@@ -179,7 +179,7 @@ internal record Ldlen : IOpCodePattern
     public bool InterchangeLdlocOpCodes => true;
     public bool InterchangeStlocOpCodes => true;
     public bool InterchangeBranchesOpCodes => true;
-    
+
     public CilOpCode CilOpCode => CilOpCodes.Ldlen;
     public bool Verify(EzirizOpcode opcode) => true;
 }
@@ -253,12 +253,12 @@ internal record Box : IOpCodePattern
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
         CilOpCodes.Ldtoken,
-        CilOpCodes.Call, 
+        CilOpCodes.Call,
         CilOpCodes.Callvirt,
         CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldfld,
         CilOpCodes.Unbox_Any,
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Callvirt,
         CilOpCodes.Stloc_S,
         CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
@@ -266,23 +266,24 @@ internal record Box : IOpCodePattern
         CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Stloc_S,
-        CilOpCodes.Ldloc_S, 
-        CilOpCodes.Brtrue_S, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Brtrue_S,
         CilOpCodes.Ldloc_S,
         CilOpCodes.Ldloc_S,
-        CilOpCodes.Call, 
+        CilOpCodes.Call,
         CilOpCodes.Call,
         CilOpCodes.Newobj,
-        CilOpCodes.Stloc_S, 
-        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
         CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Ret,
-        CilOpCodes.Ldloc_S, 
-        CilOpCodes.Call, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Call,
         CilOpCodes.Stloc_S
     };
+
     public CilOpCode CilOpCode => CilOpCodes.Box;
     public bool Verify(EzirizOpcode opcode) => true;
 }
@@ -296,33 +297,33 @@ internal record UnboxAny : IOpCodePattern
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
         CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldfld,
         CilOpCodes.Unbox_Any,
         CilOpCodes.Stloc_S,
-        CilOpCodes.Ldtoken, 
+        CilOpCodes.Ldtoken,
         CilOpCodes.Call,
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Callvirt,
         CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Stloc_S,
         CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
         CilOpCodes.Callvirt,
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Callvirt,
         CilOpCodes.Ldloc_S,
         CilOpCodes.Callvirt,
         CilOpCodes.Stloc_S,
-        CilOpCodes.Ldloc_S, 
-        CilOpCodes.Ldloc_S, 
-        CilOpCodes.Call, 
-        CilOpCodes.Stloc_S, 
-        CilOpCodes.Ldarg_0,
-        CilOpCodes.Ldfld, 
         CilOpCodes.Ldloc_S,
-        CilOpCodes.Callvirt, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Call,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
         CilOpCodes.Ret
     };
-    
+
     public CilOpCode CilOpCode => CilOpCodes.Unbox_Any;
     public bool Verify(EzirizOpcode opcode) => true;
 }
@@ -335,7 +336,7 @@ internal record Throw : IOpCodePattern
 {
     public IList<CilOpCode> Pattern => new List<CilOpCode>
     {
-        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldarg_0,
         CilOpCodes.Ldfld,
         CilOpCodes.Callvirt,
         CilOpCodes.Ldnull,
@@ -343,7 +344,7 @@ internal record Throw : IOpCodePattern
         CilOpCodes.Castclass,
         CilOpCodes.Throw
     };
-    
+
     public CilOpCode CilOpCode => CilOpCodes.Throw;
     public bool Verify(EzirizOpcode opcode) => true;
 }
