@@ -240,3 +240,86 @@ internal record Newarr : IOpCodePattern
 }
 
 #endregion
+
+#region Box
+
+internal record Box : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldtoken,
+        CilOpCodes.Call, 
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld, 
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Brtrue_S, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Call, 
+        CilOpCodes.Call,
+        CilOpCodes.Newobj,
+        CilOpCodes.Stloc_S, 
+        CilOpCodes.Ldarg_0, 
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Call, 
+        CilOpCodes.Stloc_S
+    };
+    public CilOpCode CilOpCode => CilOpCodes.Box;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion
+
+#region Unbox_Any
+
+internal record UnboxAny : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld, 
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldtoken, 
+        CilOpCodes.Call,
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Ldloc_S, 
+        CilOpCodes.Call, 
+        CilOpCodes.Stloc_S, 
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld, 
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, 
+        CilOpCodes.Ret
+    };
+    
+    public CilOpCode CilOpCode => CilOpCodes.Unbox_Any;
+    public bool Verify(EzirizOpcode opcode) => true;
+}
+
+#endregion

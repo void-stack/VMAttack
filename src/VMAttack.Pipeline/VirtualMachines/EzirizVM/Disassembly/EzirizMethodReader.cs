@@ -123,7 +123,7 @@ public class EzirizMethodReader : EzirizReaderBase
 
             method.EzirizBody.Instructions.Add(instr);
             Logger.Debug($"\t{instr}");
-            if (method.PhysicalParent.Name == "cgt_un")
+            if (method.PhysicalParent.Name == "unbox_any")
             {
                 Logger.Debug($"\t\tHandler: {instr.Opcode.Handler}");
             }
