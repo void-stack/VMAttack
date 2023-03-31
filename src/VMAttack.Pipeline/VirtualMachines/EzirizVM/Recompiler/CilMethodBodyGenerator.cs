@@ -242,7 +242,7 @@ public class CilMethodBodyGenerator : ContextBase
                 break;
 
             case CilOperandType.InlineNone:
-                if (instruction.Operand != null)
+                if (Context.Options.WriteNotCompletedVirtualizedBodies == false && instruction.Operand != null)
                     throw new Exception("Unexpected operand");
                 break;
 

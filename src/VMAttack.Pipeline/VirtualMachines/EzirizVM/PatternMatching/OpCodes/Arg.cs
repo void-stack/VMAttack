@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Serialized;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
@@ -50,7 +53,30 @@ internal record Ldarga : IOpCodePattern
 
     public CilOpCode CilOpCode => CilOpCodes.Ldarga;
 
-    public bool Verify(EzirizHandler handler) => handler.Instructions[4].Operand is ITypeDefOrRef { FullName: "System.Int32" };
+    public bool Verify(EzirizHandler handler)
+    {
+        if (handler.Instructions[4].Operand is ITypeDefOrRef { FullName: "System.Int32" })
+        {
+            // this is very breakable code, but it works for now :) against ldloca
+            if (handler.Instructions[6].Operand is SerializedMethodDefinition ctor)
+            {
+                // get the ctor DeclaringType and check if it exist
+                var ctorDeclaringType = ctor.DeclaringType;
+
+                if (ctorDeclaringType == null)
+                    return false;
+            
+                // check if class has a method named "nOQdl4ODOg" overwrite by the VM
+                var method = ctorDeclaringType.Methods.FirstOrDefault(x => x.Name == "nOQdl4ODOg");
+
+                // check instructions count < 42 if yes return true 
+                if (method?.CilMethodBody?.Instructions.Count < 42)
+                    return true;
+            }
+        }
+
+        return false;
+    } 
 }
 
 #endregion

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Serialized;
 using AsmResolver.PE.DotNet.Cil;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Architecture;
 using VMAttack.Pipeline.VirtualMachines.EzirizVM.Interfaces;
@@ -70,6 +72,56 @@ internal record Ldloc : IOpCodePattern
     public CilOpCode CilOpCode => CilOpCodes.Ldloc;
 
     public bool Verify(EzirizHandler handler) => handler.Instructions[4].Operand is ITypeDefOrRef { FullName: "System.Int32" };
+}
+
+#endregion
+
+#region Ldloca
+
+internal record Ldloca : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,    // 0 - ldarg.0
+        CilOpCodes.Ldfld,      // 1 - ldfld	class Eziriz.VM/VMObject[] Eziriz.VM/VMMethodExecutor::VMVariables
+        CilOpCodes.Ldarg_0,    // 2 - ldarg.0
+        CilOpCodes.Ldfld,      // 3 - ldfld	object Eziriz.VM/VMMethodExecutor::Operand
+        CilOpCodes.Unbox_Any,  // 4 - unbox.any	[mscorlib]System.Int32
+        CilOpCodes.Ldelem_Ref, // 5 - ldelem.ref
+        CilOpCodes.Stloc_S,    // 6 - stloc.s	V_17 (17)
+        CilOpCodes.Ldarg_0,    // 7 - ldarg.0
+        CilOpCodes.Ldfld,      // 8 - ldfld	class Eziriz.VM/VMStack Eziriz.VM/VMMethodExecutor::Stack
+        CilOpCodes.Ldloc_S,    // 9 - ldloc.s	V_17 (17)
+        CilOpCodes.Callvirt,   // 10 - callvirt	instance Void Eziriz.VM/VMStack::AddVMLocal(class Eziriz.VM/VMObject)
+        CilOpCodes.Ret         // 11 - ret
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Ldloca;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        if (handler.Instructions[4].Operand is ITypeDefOrRef { FullName: "System.Int32" })
+        {
+            // this is very breakable code, but it works for now :) against ldarga
+            if (handler.Instructions[6].Operand is SerializedMethodDefinition ctor)
+            {
+                // get the ctor DeclaringType and check if it exist
+                var ctorDeclaringType = ctor.DeclaringType;
+
+                if (ctorDeclaringType == null)
+                    return false;
+            
+                // check if class has a method named "nOQdl4ODOg" overwrite by the VM
+                var method = ctorDeclaringType.Methods.FirstOrDefault(x => x.Name == "nOQdl4ODOg");
+
+                // check instructions count >= 42
+                return !(method?.CilMethodBody?.Instructions.Count < 42);
+
+            }
+        }
+
+        return false;
+    } 
 }
 
 #endregion

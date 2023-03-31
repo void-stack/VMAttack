@@ -49,7 +49,7 @@ public class EzirizAttack : VirtualMachineAttackBase
         {
             var disassembledMethod = _ezirizDisassembler.GetOrCreateMethod(methodKey.Key, methodKey.Value);
 
-            if (disassembledMethod.EzirizBody.FullyIdentified)
+            if (disassembledMethod.EzirizBody.FullyIdentified || Context.Options.WriteNotCompletedVirtualizedBodies)
             {
                 var recompiledBody = _bodyGenerator.Compile(disassembledMethod.EzirizBody);
                 disassembledMethod.PhysicalParent.CilMethodBody = recompiledBody;
