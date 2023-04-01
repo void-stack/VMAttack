@@ -33,6 +33,7 @@ This project is an open-source (GPLv3) being under heavy work in progress and is
 
 Virtualization is a common form of code obfuscation. It transforms code into a virtual program that is no longer recognizable as its source code, allowing it to be executed without the need for a human-readable form. However, this makes it difficult for security analysts to understand the behavior of virtualized programs, as the internal mechanism of commercial obfuscators is a black box.
 
+<img src="assets/devirt_showcase.gif">
 
 ## Implemented VMs 
 ------------------

@@ -7,32 +7,23 @@ Code virtualization was introduced in version `6.2.0.0`
 
 ----------
 
-## 6.9.0.0
-<img src="assets/showcase.gif">
+# Showcase
+<img src="assets/devirt_showcase.gif">
 
 </br>
 
-## Virtualized Representation
-
-<img src="assets/virtualized.png">
-
-</br>
-
-## C# Representation
-
-<img src="assets/csharp.png">
+# Crackme example
+<img src="assets/clear_crackme.png">
 
 </br>
 
-## IL Representation
-
-<img src="assets/il.png">
+# Virtualized sample
+<img src="assets/crackme.png">
 
 </br>
 
-## VM Disassembly Representation
-
-<img src="assets/disasm.png">
+# Devirtualized sample
+<img src="assets/devirt.png">
 
 </br>
 
@@ -45,3 +36,4 @@ Implemented Handler patterns [here 6.9.0.0](https://github.com/void-stack/VMAtta
 ## Credits
 - [tobitofatito](https://forum.tuts4you.com/profile/101602-tobitofatito/)
 - [puff](https://github.com/puff)
+- [0xInception](https://github.com/0xInception/UseEveryOpCode)
