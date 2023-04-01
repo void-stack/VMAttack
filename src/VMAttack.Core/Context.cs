@@ -57,7 +57,7 @@ public class Context
 
     /// <summary>
     ///     Gets the module definition for the module that this context operates on.
-    // </<summary>
+    ///     </<summary>
     public ModuleDefinition Module { get; }
 
     /// <summary>

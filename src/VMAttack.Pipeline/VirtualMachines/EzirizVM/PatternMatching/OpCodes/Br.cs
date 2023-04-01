@@ -102,6 +102,64 @@ internal record Brtrue : IOpCodePattern
 
 #endregion
 
+#region Beq
+
+internal class BeqVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldloc_0,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Brtrue,
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldloc_0,
+        CilOpCodes.Castclass,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ceq,
+        CilOpCodes.Ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record Beq : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, // 8
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Beq;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[8].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BeqVmTypePattern());
+    }
+}
+
+#endregion
+
 #region Bne_Un
 
 internal record BneUnVmTypePattern : IPattern
@@ -152,6 +210,462 @@ internal record BneUn : IOpCodePattern
     {
         var virtualMethod = handler.Instructions[6].Operand as SerializedMethodDefinition;
         return virtualMethod.FindPatternInOverrides(new BneUnVmTypePattern());
+    }
+}
+
+#endregion
+
+#region Bge
+
+internal record BgeVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldarg_1,
+        CilOpCodes.Castclass,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Clt_Un,
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Ceq,
+        CilOpCodes.Ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record Bge : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, // 10
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Bge;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[9].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BgeVmTypePattern());
+    }
+}
+
+#endregion
+
+#region Bge_Un
+
+internal record BgeUnVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldarg_1,
+        CilOpCodes.Castclass,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Clt_Un,
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Ceq,
+        CilOpCodes.Ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record BgeUn : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, // 9
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Bge_Un;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[9].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BgeUnVmTypePattern());
+    }
+}
+
+#endregion
+
+#region Bgt
+
+internal record BgtVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldarg_1,
+        CilOpCodes.Castclass,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Cgt,
+        CilOpCodes.Ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record Bgt : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, // 9
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Bgt;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[9].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BgtVmTypePattern());
+    }
+}
+
+#endregion
+
+#region Bgt_Un
+
+internal record BgtUn : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Call,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Call,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Brtrue_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Bgt_Un;
+
+    public bool Verify(EzirizHandler handler) => true;
+}
+
+#endregion
+
+#region Ble
+
+internal record BleVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldarg_1,
+        CilOpCodes.Castclass,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Cgt_Un,
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Ceq,
+        CilOpCodes.Ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record Ble : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, // 9 
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Ble;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[9].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BleVmTypePattern());
+    }
+}
+
+#endregion
+
+#region Ble_Un
+
+internal record BleUnVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldarg_1,
+        CilOpCodes.Castclass,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Cgt_Un,
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Ceq,
+        CilOpCodes.Ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record BleUn : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Ble_Un;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[9].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BleUnVmTypePattern());
+    }
+}
+
+#endregion
+
+#region Blt
+
+internal record BltVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,   // 0 ldarg.0 
+        CilOpCodes.Ldfld,     // 1 ldfld float64 jOgQY3RGtH5fd9qQao.OBqe2IUAeSpOmlOQ4O/j5UMoXLRwIcnpEjt1UJ::BUuja1QMZO
+        CilOpCodes.Ldarg_1,   // 2 ldarg.1
+        CilOpCodes.Castclass, // 3 castclass jOgQY3RGtH5fd9qQao.OBqe2IUAeSpOmlOQ4O/j5UMoXLRwIcnpEjt1UJ
+        CilOpCodes.Ldfld,     // 4 ldfld float64 jOgQY3RGtH5fd9qQao.OBqe2IUAeSpOmlOQ4O/j5UMoXLRwIcnpEjt1UJ::BUuja1QMZO
+        CilOpCodes.Clt,       // 5 clt
+        CilOpCodes.Ret        // 6 ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record Blt : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, // 9 
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Blt;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[9].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BltVmTypePattern());
+    }
+}
+
+#endregion
+
+#region Blt_Un
+
+internal record BltUnUnVmTypePattern : IPattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,   // 0 ldarg.0 
+        CilOpCodes.Ldfld,     // 1 ldfld float64 jOgQY3RGtH5fd9qQao.OBqe2IUAeSpOmlOQ4O/j5UMoXLRwIcnpEjt1UJ::BUuja1QMZO
+        CilOpCodes.Ldarg_1,   // 2 ldarg.1
+        CilOpCodes.Castclass, // 3 castclass jOgQY3RGtH5fd9qQao.OBqe2IUAeSpOmlOQ4O/j5UMoXLRwIcnpEjt1UJ
+        CilOpCodes.Ldfld,     // 4 ldfld float64 jOgQY3RGtH5fd9qQao.OBqe2IUAeSpOmlOQ4O/j5UMoXLRwIcnpEjt1UJ::BUuja1QMZO
+        CilOpCodes.Clt,       // 5 clt
+        CilOpCodes.Ret        // 6 ret
+    };
+
+    public bool MatchEntireBody => false;
+}
+
+internal record BltUn : IOpCodePattern
+{
+    public IList<CilOpCode> Pattern => new List<CilOpCode>
+    {
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Stloc_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Call,
+        CilOpCodes.Ldloc_S,
+        CilOpCodes.Callvirt, // 9 
+        CilOpCodes.Dup,
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldc_I4_0,
+        CilOpCodes.Newobj,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Brfalse_S,
+        CilOpCodes.Ret,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Unbox_Any,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Sub,
+        CilOpCodes.Stfld,
+        CilOpCodes.Ldarg_0,
+        CilOpCodes.Ldfld,
+        CilOpCodes.Ldc_I4_1,
+        CilOpCodes.Newobj,
+        CilOpCodes.Callvirt,
+        CilOpCodes.Br_S
+    };
+
+    public CilOpCode CilOpCode => CilOpCodes.Blt_Un;
+
+    public bool Verify(EzirizHandler handler)
+    {
+        var virtualMethod = handler.Instructions[9].Operand as SerializedMethodDefinition;
+        return virtualMethod.FindPatternInOverrides(new BltUnUnVmTypePattern());
     }
 }
 
