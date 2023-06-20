@@ -44,7 +44,7 @@ Virtualization is a common form of code obfuscation. It transforms code into a v
 - [KoiVM Washi1337](https://github.com/Washi1337/OldRod)
 - [CawkVM ElektroKill](https://github.com/ElektroKill/CawkVM-Unpacker)
 - [Eazfuscator .NET saneki](https://github.com/saneki/eazdevirt) (new comming soon)
-
+- [EazyDevirt](https://github.com/puff/EazyDevirt) (new)
 
 ## Installation
 ---------------
